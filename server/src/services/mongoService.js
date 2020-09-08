@@ -9,4 +9,7 @@ const createHabit = async (title, description, startDate, everyday, everydayOnly
     return newHabit.save();
 };
 
+module.exports = {
+    createHabit
+}
 
