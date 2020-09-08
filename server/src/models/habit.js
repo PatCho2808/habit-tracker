@@ -13,7 +13,7 @@ const habitSchema = new mongoose.Schema({
     }, 
     everyday: Boolean, 
     everydayOnlyWeekdays: Boolean
-})
+}, { timestamps : true}); 
 
 const Habit = mongoose.model('Habit', habitSchema); 
 
