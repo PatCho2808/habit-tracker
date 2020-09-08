@@ -3,8 +3,9 @@ const app = express();
 const middlewares = require('./middlewares'); 
 const api = require('./api/routes'); 
 
+app.use(express.json());
+
 app.use('/api', api); 
-app.use(express.json()); 
 
 app.use(middlewares.notFound); 
 app.use(middlewares.errorHandler); 
