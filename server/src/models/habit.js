@@ -11,8 +11,10 @@ const habitSchema = new mongoose.Schema({
         required: true, 
         default: new Date()
     }, 
-    everyday: Boolean, 
-    everydayOnlyWeekdays: Boolean
+    weekdays: {
+        type: [Number], 
+        required: true
+    }
 }, { timestamps : true}); 
 
 const Habit = mongoose.model('Habit', habitSchema); 

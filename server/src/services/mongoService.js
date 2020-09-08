@@ -7,8 +7,8 @@ mongoose.connect(db_url, {
     useUnifiedTopology: true
 });
 
-const createHabit = async (name, description, startDate, everyday, everydayOnlyWeekdays) => {
-    const newHabit = new Habit({ name, description, startDate, everyday, everydayOnlyWeekdays });
+const createHabit = async (name, description, startDate, weekdays) => {
+    const newHabit = new Habit({ name, description, startDate, weekdays });
     return newHabit.save();
 };
 
