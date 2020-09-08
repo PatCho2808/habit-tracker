@@ -1,18 +1,25 @@
 const mongoService = require('../services/mongoService');
 
 const createHabit = (req, res, next) => {
-    console.log(req.body); 
+    console.log(req.body);
     const body = req.body;
     const promise = mongoService.createHabit(body.name, body.description, body.startDate, body.evetyday, body.everydayOnlyWeekdays);
-    promise.then( newHabit => {
+    promise.then(newHabit => {
         res.json({
-            "id" : newHabit.id
-        }); 
+            "id": newHabit.id
+        });
     })
-    .catch( err => next(err)); 
+        .catch(err => next(err));
 };
+
+const getAllHabits = (req, res, next) => {
+    mongoService.getAllHabits()
+        .then(data => res.json(data))
+        .catch(err => next(err));
+}
 
 
 module.exports = {
-    createHabit
+    createHabit,
+    getAllHabits
 }

@@ -12,7 +12,12 @@ const createHabit = async (name, description, startDate, everyday, everydayOnlyW
     return newHabit.save();
 };
 
+const getAllHabits = async () => {
+    return Habit.find({}); 
+}
+
 module.exports = {
-    createHabit
+    createHabit, 
+    getAllHabits
 }
 
