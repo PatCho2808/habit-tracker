@@ -1,15 +1,10 @@
-const mongoService = require('../../services/mongoService');
-const jwt = require('jsonwebtoken');
+const userService = require('../../services/userService');
 
 const createUser = async (req, res, next) => {
     const body = req.body;
     try {
-        const newUser = await mongoService.createUser(body);
-        const newJWT = await jwt.sign({
-            'username': newUser.username
-        }, 'wethwetjwerhxfgsry'); 
-        res.json(newJWT); 
-
+        const jwt = await userService.createUser(body);
+        res.json(jwt);  
     } catch (error) {
         return next(error); 
     }
