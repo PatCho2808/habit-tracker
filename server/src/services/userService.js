@@ -6,15 +6,25 @@ const createUser = async user => {
     try {
         let newUser = new User(user);
         newUser = await newUser.save();
-        const newJWT = await jwt.sign({
-            'username': newUser.username
-        }, api_secret);
-        return newJWT;
+        return await getToken(newUser); ;
     } catch (error) {
         throw error;
     }
 };
 
+const getToken = async user => {
+    try {
+        const token = await jwt.sign({
+            'username': user.username
+        }, api_secret);
+        return token;
+    } catch (error) {
+        throw (error);
+    }
+}
+
+
 module.exports = {
-    createUser
+    createUser, 
+    getToken
 }

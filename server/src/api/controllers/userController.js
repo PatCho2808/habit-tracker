@@ -4,12 +4,23 @@ const createUser = async (req, res, next) => {
     const body = req.body;
     try {
         const jwt = await userService.createUser(body);
-        res.json(jwt);  
+        res.json(jwt);
     } catch (error) {
-        return next(error); 
+        return next(error);
     }
 };
 
+const getToken = async (req, res, next) => {
+    const user = req.body;
+    try {
+        const token = await userService.getToken(user);
+        res.json(token);
+    } catch (error) {
+        next(error); 
+    }
+}
+
 module.exports = {
-    createUser
+    createUser, 
+    getToken
 }
