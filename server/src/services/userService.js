@@ -1,5 +1,6 @@
 const jwt = require('jsonwebtoken');
-const User = require('../models/user'); 
+const User = require('../models/user');
+const { api_secret } = require('./../config');
 
 const createUser = async user => {
     try {
@@ -7,10 +8,10 @@ const createUser = async user => {
         newUser = await newUser.save();
         const newJWT = await jwt.sign({
             'username': newUser.username
-        }, 'wethwetjwerhxfgsry');
+        }, api_secret);
         return newJWT;
     } catch (error) {
-        throw error; 
+        throw error;
     }
 };
 
