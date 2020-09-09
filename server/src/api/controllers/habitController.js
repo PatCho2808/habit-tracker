@@ -1,4 +1,4 @@
-const mongoService = require('../services/mongoService');
+const mongoService = require('../../services/mongoService');
 
 const createHabit = (req, res, next) => {
     const body = req.body;
