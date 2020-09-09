@@ -1,6 +1,8 @@
 const mongoose = require('mongoose');
 const { db_url } = require('../config');
+
 const Habit = require('../models/habit');
+const User = require('../models/user'); 
 
 mongoose.connect(db_url, {
     useNewUrlParser: true,
@@ -16,8 +18,14 @@ const getAllHabits = async () => {
     return Habit.find({}); 
 }
 
+const createUser = async (user) => {
+    const newUser = new User(user);
+    return newUser.save();  
+}; 
+
 module.exports = {
     createHabit, 
-    getAllHabits
+    getAllHabits, 
+    createUser
 }
 
