@@ -10,7 +10,7 @@ const signup = async (req, res, next) => {
     }
 };
 
-const getToken = async (req, res, next) => {
+const login = async (req, res, next) => {
     const user = req.body;
     try {
         const token = await userService.getToken(user);
@@ -22,5 +22,5 @@ const getToken = async (req, res, next) => {
 
 module.exports = {
     signup, 
-    getToken
+    login
 }

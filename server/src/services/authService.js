@@ -12,7 +12,7 @@ const createUser = async user => {
     }
 };
 
-const getToken = async user => {
+const login = async user => {
     try {
         const token = await jwt.sign({
             'username': user.username
@@ -26,5 +26,5 @@ const getToken = async user => {
 
 module.exports = {
     createUser, 
-    getToken
+    login
 }
