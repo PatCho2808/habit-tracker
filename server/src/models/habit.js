@@ -1,68 +1,84 @@
-const mongoose = require('mongoose'); 
+const mongoose = require('mongoose');
 
 const habitSchema = new mongoose.Schema({
     name: {
-        type: String, 
+        type: String,
         required: true
-    }, 
-    description: String, 
+    },
+    description: String,
     startDate: {
-        type: Date, 
-        required: true, 
+        type: Date,
+        required: true,
         default: new Date()
-    }, 
+    },
     weekdays: {
-        type: [Number], 
+        type: [Number],
         required: true
-    }, 
+    },
     userId: {
-        type: String, 
+        type: String,
         required: true
-    }, 
+    },
     doneAt: {
-        type: [Number], 
-        default: [], 
+        type: [Number],
+        default: [],
         validate: dates => {
-            if (new Set(dates).size !== dates.length){
-                throw new Error("Dates have to be unique"); 
+            if (new Set(dates).size !== dates.length) {
+                throw new Error("Dates have to be unique");
             }
         }
-    }, 
-    currentStreak: Number, 
+    },
+    currentStreak: Number,
     longestStreak: Number
-}, { timestamps : true}); 
+}, { timestamps: true });
 
-// habitSchema.pre('save', function(next){
-//     let habit = this; 
-//     if(!habit.isModified('doneAt')) return next(); 
-//     const lastDate = habit.doneAt[0]; 
-//     if (getAreDatesEqual(lastDate, new Date())) {
-//         let streak = 0;
-//         for (let i = 1; i < habit.doneAt.length; i++) {
-//             const prevDate = new Date(habit.doneAt[i - 1]); 
-//             prevDate.setDate(prevDate.getDate() - 1);
-//             if (getAreDatesEqual(habit.doneAt[i], prevDate)) {
-//                 streak++;
-//             } else {
-//                 break;
-//             }
-//         }
-//         console.log(streak); 
-//         habit.currentStreak = streak;
-//         if (!habit.longestStreak || habit.currentStreak > habit.longestStreak) {
-//             habit.longestStreak = habit.currentStreak;
-//         }
-//     }
-//     next(); 
-// }); 
+habitSchema.pre('save', function (next) {
+    let habit = this;
+    if (!habit.isModified('doneAt')) return next();
+    habit.doneAt.sort((a, b) => {
+        return b - a;
+    });
+    next();
+});
 
-const getAreDatesEqual = (a, b) => {
-    console.log(a, b); 
-    return (a.getFullYear() === b.getFullYear() &&
-        a.getMonth() === b.getMonth() &&
-        a.getDate() === b.getDate())
+habitSchema.pre('save', function (next) {
+    let habit = this;
+    if (!habit.isModified('doneAt')) return next();
+    const lastDate = habit.doneAt[0];
+    let streak = 0;
+    if (lastDate === getCurrentTime()) {
+        streak = 1 + computeCurrentStreak(habit.doneAt); 
+    }
+    habit.currentStreak = streak;
+    if (!habit.longestStreak || habit.currentStreak > habit.longestStreak) {
+        habit.longestStreak = habit.currentStreak;
+    }
+    next();
+});
+
+const getCurrentTime = () => {
+    const today = new Date();
+    today.setMilliseconds(0);
+    today.setSeconds(0);
+    today.setMinutes(0);
+    today.setHours(0);
+    return today.getTime();
 };
 
-const Habit = mongoose.model('Habit', habitSchema); 
+const computeCurrentStreak = dates => {
+    let streak = 0; 
+    for (let i = 1; i < dates.length; i++) {
+        const prevDate = new Date(dates[i - 1]);
+        prevDate.setDate(prevDate.getDate() - 1);
+        if (dates[i] === prevDate.getTime()) {
+            streak++;
+        } else {
+            break;
+        }
+    }
+    return streak; 
+};
+
+const Habit = mongoose.model('Habit', habitSchema);
 
 module.exports = Habit; 
