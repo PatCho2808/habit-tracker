@@ -38,18 +38,18 @@ const getAllHabitsByUser = async (user) => {
 const addDateToHabit = async (habitId, newDates) => {
     let habit = await Habit.findById(habitId);
     newDates.forEach(date => {
-        habit.doneAt.forEach(oldDate => {
-            const newDate = new Date(date);
-            if (oldDate.getFullYear() === newDate.getFullYear() &&
-                oldDate.getMonth() === newDate.getMonth() &&
-                oldDate.getDate() === newDate.getDate()) {
-                throw new Error("Date already exists");
-            }
-        })
-        habit.doneAt.push(date)
+        // habit.doneAt.forEach(oldDate => {
+        //     const newDate = new Date(date);
+        //     if (oldDate.getFullYear() === newDate.getFullYear() &&
+        //         oldDate.getMonth() === newDate.getMonth() &&
+        //         oldDate.getDate() === newDate.getDate()) {
+        //         throw new Error("Date already exists");
+        //     }
+        // })
+        habit.doneAt.push(new Date(date).getTime())
     });
     habit.doneAt.sort((a, b) => {
-        return b.getTime() - a.getTime();
+        return b - a;
     });
     const savedHabit = await habit.save();
     return habit;
