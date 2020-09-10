@@ -35,7 +35,15 @@ const getAllHabitsByUser = async (user) => {
     }
 };
 
+const addDateToHabit = async (habitId, newDate) => {
+    const habit = await Habit.findById(habitId);
+    habit.doneAt.push(newDate);
+    const savedHabit =  await habit.save();
+    return savedHabit.doneAt;  
+}; 
+
 module.exports = {
     createHabit,
-    getAllHabitsByUser
+    getAllHabitsByUser, 
+    addDateToHabit
 }

@@ -18,6 +18,10 @@ const habitSchema = new mongoose.Schema({
     userId: {
         type: String, 
         required: true
+    }, 
+    doneAt: {
+        type: [Date], 
+        default: []
     }
 }, { timestamps : true}); 
 

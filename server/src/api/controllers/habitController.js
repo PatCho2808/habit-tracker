@@ -21,8 +21,17 @@ const getAllHabits = async (req, res, next) => {
     }
 }
 
+const updateHabit = async (req, res, next) => {
+    try {
+        const doneDates = await habitService.addDateToHabit(req.params.id, req.body.date); 
+        res.json({doneDates}); 
+    } catch (error) {
+        next(error); 
+    }
+}; 
 
 module.exports = {
     createHabit,
-    getAllHabits
+    getAllHabits, 
+    updateHabit
 }
