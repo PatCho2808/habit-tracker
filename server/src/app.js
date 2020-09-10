@@ -19,7 +19,7 @@ const authRoutes = require('./api/routes/authRoutes');
 app.use(express.json());
 app.use(volleyball); 
 
-app.use('/api/habit', habitRoutes);
+app.use('/api/habits', habitRoutes);
 app.use('/api/auth', authRoutes); 
 
 app.use(middlewares.notFound);

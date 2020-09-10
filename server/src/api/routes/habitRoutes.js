@@ -4,7 +4,7 @@ const middlewares = require('../../middlewares');
 
 router.use(middlewares.authenticateToken); 
 
-router.get('/all', controller.getAllHabits);
-router.post('/create', controller.createHabit); 
+router.get('/', controller.getAllHabits);
+router.post('/', controller.createHabit); 
 
 module.exports = router; 
