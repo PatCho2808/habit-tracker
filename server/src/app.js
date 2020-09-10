@@ -1,5 +1,8 @@
 const express = require('express');
+const volleyball = require('volleyball');
+
 const app = express();
+
 const middlewares = require('./middlewares');
 
 const db = require('mongoose');
@@ -14,6 +17,7 @@ const habitRoutes = require('./api/routes/habit');
 const userRoutes = require('./api/routes/user'); 
 
 app.use(express.json());
+app.use(volleyball); 
 
 app.use('/api/habit', habitRoutes);
 app.use('/api/user', userRoutes); 

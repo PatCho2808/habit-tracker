@@ -1,5 +1,4 @@
 const jwt = require('jsonwebtoken'); 
-const { response } = require('./app');
 
 const notFound = (req, res, next) => {
     const error = new Error(`Not found = ${req.originalUrl}`); 
