@@ -2,7 +2,7 @@ const Habit = require('../models/habit');
 
 const createHabit = async (habit, user) => {
     habit.weekdays = convertWeekdaysToNumbers(habit.weekdays);
-    habit.userId = user.id; 
+    habit.userId = user.id;
     let newHabit = new Habit(habit);
     try {
         newHabit = await newHabit.save();
@@ -35,15 +35,32 @@ const getAllHabitsByUser = async (user) => {
     }
 };
 
-const addDateToHabit = async (habitId, newDate) => {
-    const habit = await Habit.findById(habitId);
-    habit.doneAt.push(newDate);
-    const savedHabit =  await habit.save();
-    return savedHabit.doneAt;  
-}; 
+const addDateToHabit = async (habitId, newDates) => {
+    let habit = await Habit.findById(habitId);
+    // habit.doneAt = ["2020-09-09T12:35:33.783+00:00"]; 
+    // habit.doneAt.forEach( done => {
+    //     console.log(done.getTime() === new Date("2020-09-09T12:35:33.783+00:00").getTime()); 
+    //     if(done == new Date("2020-09-09T12:35:33.783+00:00")){
+    //         console.log("true"); 
+    //     }
+    // })
+    newDates.forEach(date => {
+        habit.doneAt.forEach(oldDate => {
+            const newDate = new Date(date);
+            if (oldDate.getFullYear() === newDate.getFullYear() &&
+                oldDate.getMonth() === newDate.getMonth() &&
+                oldDate.getDate() === newDate.getDate()) {
+                throw new Error("Date already exists");
+            }
+        })
+        habit.doneAt.push(date)
+    });
+    const savedHabit = await habit.save();
+    return savedHabit.doneAt;
+};
 
 module.exports = {
     createHabit,
-    getAllHabitsByUser, 
+    getAllHabitsByUser,
     addDateToHabit
 }
