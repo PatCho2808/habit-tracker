@@ -48,8 +48,43 @@ const addDateToHabit = async (habitId, newDates) => {
         })
         habit.doneAt.push(date)
     });
-    const savedHabit = await habit.save();
-    return savedHabit;
+    habit.doneAt.sort((a, b) => {
+        return b.getTime() - a.getTime();
+    });
+    updateStreak(habit);
+    //const savedHabit = await habit.save();
+    return habit;
+};
+
+const updateStreak = habit => {
+    const lastDate = habit.doneAt[0];
+    const today = new Date();
+    if (lastDate.getFullYear() === today.getFullYear() &&
+        lastDate.getMonth() === today.getMonth() &&
+        lastDate.getDate() === today.getDate()) {
+        let streak = 0;
+        for (let i = 1; i < habit.doneAt.length; i++) {
+            const prevDate = new Date(habit.doneAt[i - 1]); 
+            prevDate.setDate(prevDate.getDate() - 1);
+            if (getAreDatesEqual(habit.doneAt[i], prevDate)) {
+                streak++;
+                console.log('streak++');
+            } else {
+                break;
+            }
+        }
+        habit.currentStreak = streak;
+        if (!habit.longestStreak || habit.currentStreak > habit.longestStreak) {
+            habit.longestStreak = habit.currentStreak;
+        }
+    }
+};
+
+const getAreDatesEqual = (a, b) => {
+    console.log(a, b); 
+    return (a.getFullYear() === b.getFullYear() &&
+        a.getMonth() === b.getMonth() &&
+        a.getDate() === b.getDate())
 };
 
 module.exports = {

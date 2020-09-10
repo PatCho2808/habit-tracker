@@ -22,7 +22,9 @@ const habitSchema = new mongoose.Schema({
     doneAt: {
         type: [Date], 
         default: []
-    }
+    }, 
+    currentStreak: Number, 
+    longestStreak: Number
 }, { timestamps : true}); 
 
 const Habit = mongoose.model('Habit', habitSchema); 
