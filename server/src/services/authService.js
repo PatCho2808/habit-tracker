@@ -20,14 +20,19 @@ const login = async user => {
         {
             throw new Error('Incorrect password'); 
         } 
-        const token = await jwt.sign({
-            'username': user.username
-        }, api_secret);
-        return token;
+        return getToken(userFromDb); 
     } catch (error) {
         throw (error);
     }
-}
+}; 
+
+const getToken = async user => {
+    const token = await jwt.sign({
+        'id': user.id,
+        'username': user.username, 
+    }, api_secret);
+    return token;  
+}; 
 
 
 module.exports = {
