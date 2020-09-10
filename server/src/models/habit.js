@@ -14,6 +14,10 @@ const habitSchema = new mongoose.Schema({
     weekdays: {
         type: [Number], 
         required: true
+    }, 
+    userId: {
+        type: String, 
+        required: true
     }
 }, { timestamps : true}); 
 

@@ -1,7 +1,8 @@
 const Habit = require('../models/habit');
 
-const createHabit = async habit => {
+const createHabit = async (habit, user) => {
     habit.weekdays = convertWeekdaysToNumbers(habit.weekdays);
+    habit.userId = user.id; 
     let newHabit = new Habit(habit);
     try {
         newHabit = await newHabit.save();
@@ -26,9 +27,9 @@ const convertWeekdaysToNumbers = weekdays => {
 
 const getAllHabitsByUser = async (user) => {
     try {
-        console.log(user); 
-        const habits = await Habit.find({"userId": user.id});
-        return habits; 
+        console.log(user);
+        const habits = await Habit.find({ "userId": user.id });
+        return habits;
     } catch (error) {
         throw error;
     }

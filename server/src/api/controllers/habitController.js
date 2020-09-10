@@ -3,7 +3,7 @@ const habitService = require('../../services/habitService');
 const createHabit = async (req, res, next) => {
     const body = req.body;
     try {
-        const newHabitId = await habitService.createHabit(body);
+        const newHabitId = await habitService.createHabit(body, req.user);
         res.json({
             "id": newHabitId
         })
