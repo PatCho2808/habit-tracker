@@ -14,6 +14,12 @@ const createUser = async user => {
 
 const login = async user => {
     try {
+        const userFromDb = await User.findOne({username: user.username});  
+        const correctPassword = await userFromDb.comparePassword(user.password);
+        if(!correctPassword)
+        {
+            throw new Error('Incorrect password'); 
+        } 
         const token = await jwt.sign({
             'username': user.username
         }, api_secret);

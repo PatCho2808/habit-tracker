@@ -5,18 +5,18 @@ const userSchema = new mongoose.Schema({
     username: {
         type: String,
         required: true,
-        unique: true, 
-        minlength: 3, 
+        unique: true,
+        minlength: 3,
         maxlength: 30
     },
     password: {
         type: String,
-        required: true, 
+        required: true,
         minlength: 6
     }
 }, { timestamps: true });
 
-userSchema.pre('save', function(next){
+userSchema.pre('save', function (next) {
     let user = this;
     if (!user.isModified('password')) {
         return next();
@@ -30,13 +30,8 @@ userSchema.pre('save', function(next){
     next(err);
 });
 
-userSchema.methods.comparePassword = function(candidatePassword, next){
-    bcrypt.compare(candidatePassword, this.password, (err, isMatch) => {
-        if (error) {
-            return next(err);
-        }
-        next(null, isMatch);
-    });
+userSchema.methods.comparePassword = async function (candidatePassword) {
+    return bcrypt.compareSync(candidatePassword, this.password);
 };
 
 const User = mongoose.model('User', userSchema);

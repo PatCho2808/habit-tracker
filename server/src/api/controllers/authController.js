@@ -13,9 +13,10 @@ const signup = async (req, res, next) => {
 const login = async (req, res, next) => {
     const user = req.body;
     try {
-        const token = await userService.getToken(user);
+        const token = await userService.login(user);
         res.json(token);
     } catch (error) {
+        res.status(422); 
         next(error); 
     }
 }
