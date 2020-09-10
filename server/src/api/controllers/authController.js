@@ -1,6 +1,6 @@
-const userService = require('../../services/userService');
+const userService = require('../../services/authService');
 
-const createUser = async (req, res, next) => {
+const signup = async (req, res, next) => {
     const body = req.body;
     try {
         const jwt = await userService.createUser(body);
@@ -21,6 +21,6 @@ const getToken = async (req, res, next) => {
 }
 
 module.exports = {
-    createUser, 
+    signup, 
     getToken
 }

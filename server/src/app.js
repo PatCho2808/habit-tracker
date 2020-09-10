@@ -13,14 +13,14 @@ db.connect(db_url, {
     useUnifiedTopology: true
 });
 
-const habitRoutes = require('./api/routes/habit');
-const userRoutes = require('./api/routes/user'); 
+const habitRoutes = require('./api/routes/habitRoutes');
+const authRoutes = require('./api/routes/authRoutes'); 
 
 app.use(express.json());
 app.use(volleyball); 
 
 app.use('/api/habit', habitRoutes);
-app.use('/api/user', userRoutes); 
+app.use('/api/auth', authRoutes); 
 
 app.use(middlewares.notFound);
 app.use(middlewares.errorHandler);

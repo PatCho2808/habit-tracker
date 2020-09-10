@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken');
 const User = require('../models/user');
-const { api_secret } = require('./../config');
+const { api_secret } = require('../config');
 
 const createUser = async user => {
     try {
