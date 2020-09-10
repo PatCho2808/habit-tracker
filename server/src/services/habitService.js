@@ -24,9 +24,10 @@ const convertWeekdaysToNumbers = weekdays => {
     });
 }
 
-const getAllHabits = async () => {
+const getAllHabitsByUser = async (user) => {
     try {
-        const habits = await Habit.find({});
+        console.log(user); 
+        const habits = await Habit.find({"userId": user.id});
         return habits; 
     } catch (error) {
         throw error;
@@ -35,5 +36,5 @@ const getAllHabits = async () => {
 
 module.exports = {
     createHabit,
-    getAllHabits
+    getAllHabitsByUser
 }

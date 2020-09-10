@@ -14,7 +14,7 @@ const createHabit = async (req, res, next) => {
 
 const getAllHabits = async (req, res, next) => {
     try {
-        const habits = await habitService.getAllHabits(); 
+        const habits = await habitService.getAllHabitsByUser(req.user); 
         res.json(habits); 
     } catch (error) {
         next(error); 

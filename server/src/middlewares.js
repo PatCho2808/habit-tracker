@@ -27,7 +27,6 @@ const authenticateToken = (req, res, next) => {
             res.status(403); 
             next(err);  
         }
-        console.log(user); 
         req.user = user; 
         next(); 
     })
