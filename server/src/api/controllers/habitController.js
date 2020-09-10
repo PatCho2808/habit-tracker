@@ -23,8 +23,8 @@ const getAllHabits = async (req, res, next) => {
 
 const updateHabit = async (req, res, next) => {
     try {
-        const doneDates = await habitService.addDateToHabit(req.params.id, req.body.date); 
-        res.json({doneDates}); 
+        const habit = await habitService.addDateToHabit(req.params.id, req.body.date); 
+        res.json({habit}); 
     } catch (error) {
         next(error); 
     }

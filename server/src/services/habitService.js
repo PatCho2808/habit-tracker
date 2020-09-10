@@ -37,13 +37,6 @@ const getAllHabitsByUser = async (user) => {
 
 const addDateToHabit = async (habitId, newDates) => {
     let habit = await Habit.findById(habitId);
-    // habit.doneAt = ["2020-09-09T12:35:33.783+00:00"]; 
-    // habit.doneAt.forEach( done => {
-    //     console.log(done.getTime() === new Date("2020-09-09T12:35:33.783+00:00").getTime()); 
-    //     if(done == new Date("2020-09-09T12:35:33.783+00:00")){
-    //         console.log("true"); 
-    //     }
-    // })
     newDates.forEach(date => {
         habit.doneAt.forEach(oldDate => {
             const newDate = new Date(date);
@@ -56,7 +49,7 @@ const addDateToHabit = async (habitId, newDates) => {
         habit.doneAt.push(date)
     });
     const savedHabit = await habit.save();
-    return savedHabit.doneAt;
+    return savedHabit;
 };
 
 module.exports = {
