@@ -29,8 +29,14 @@ const habitSchema = new mongoose.Schema({
             }
         }
     },
-    currentStreak: Number,
-    longestStreak: Number
+    currentStreak: {
+        type: Number,
+        default: 0 
+    },
+    longestStreak:{
+        type: Number, 
+        default: 0
+    }
 }, { timestamps: true });
 
 habitSchema.pre('save', function (next) {
@@ -51,7 +57,7 @@ habitSchema.pre('save', function (next) {
         streak = 1 + computeCurrentStreak(habit.doneAt); 
     }
     habit.currentStreak = streak;
-    if (!habit.longestStreak || habit.currentStreak > habit.longestStreak) {
+    if (habit.currentStreak > habit.longestStreak) {
         habit.longestStreak = habit.currentStreak;
     }
     next();
