@@ -10,6 +10,10 @@ const rewardSchema = new mongoose.Schema({
         required: true,
         min: 1,
         max: 365
+    }, 
+    done: {
+        type: Boolean, 
+        default: false
     }
 });
 
