@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const timeService = require('../services/timeService'); 
 
 const habitSchema = new mongoose.Schema({
     name: {
@@ -46,7 +47,7 @@ habitSchema.pre('save', function (next) {
     if (!habit.isModified('doneAt')) return next();
     const lastDate = habit.doneAt[0];
     let streak = 0;
-    if (lastDate === getCurrentTime()) {
+    if (lastDate === timeService.getCurrentTime()) {
         streak = 1 + computeCurrentStreak(habit.doneAt); 
     }
     habit.currentStreak = streak;
@@ -56,14 +57,6 @@ habitSchema.pre('save', function (next) {
     next();
 });
 
-const getCurrentTime = () => {
-    const today = new Date();
-    today.setMilliseconds(0);
-    today.setSeconds(0);
-    today.setMinutes(0);
-    today.setHours(0);
-    return today.getTime();
-};
 
 const computeCurrentStreak = dates => {
     let streak = 0; 
@@ -84,7 +77,6 @@ habitSchema.virtual('doneAtDates').get(function(){
         return new Date(el); 
     });
 }); 
-
 
 const Habit = mongoose.model('Habit', habitSchema);
 

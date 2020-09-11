@@ -1,4 +1,5 @@
 const Habit = require('../models/habit');
+const timeSerice = require('./timeService'); 
 
 const createHabit = async (habit, user) => {
     habit.weekdays = convertWeekdaysToNumbers(habit.weekdays);
@@ -38,11 +39,7 @@ const getAllHabitsByUser = async (user) => {
 const addDateToHabit = async (habitId, newDates) => {
     let habit = await Habit.findById(habitId);
     newDates.forEach(date => {
-        let newDate = new Date(date);
-        newDate.setHours(0);
-        newDate.setMinutes(0);
-        newDate.setSeconds(0);
-        newDate.setMilliseconds(0);
+        let newDate = timeService.setTimeToZero(new Date(date));
         habit.doneAt.push(newDate.getTime())
     });
     const savedHabit = await habit.save();
