@@ -35,6 +35,7 @@ const updateHabit = async (req, res, next) => {
 
 const getHabitJson = habit => {
     return {
+        "_id": habit.id,
         "name": habit.name,
         "dates": habit.doneAtDates,
         "currentStreak": habit.currentStreak,
