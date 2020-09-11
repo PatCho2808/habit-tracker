@@ -7,11 +7,7 @@ const setTimeToZero = date => {
 }
 
 const getCurrentTime = () => {
-    const today = new Date();
-    today.setMilliseconds(0);
-    today.setSeconds(0);
-    today.setMinutes(0);
-    today.setHours(0);
+    const today = setTimeToZero(new Date()); 
     return today.getTime();
 };
 
