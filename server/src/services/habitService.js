@@ -55,9 +55,14 @@ const updateHabit = async (habit, newParams) => {
     return savedHabit;
 }
 
+const deleteHabitById = async (habitId) => {
+    await Habit.findByIdAndDelete(habitId); 
+}
+
 module.exports = {
     createHabit,
     getAllHabitsByUser,
     getHabitById,
-    updateHabit
+    updateHabit, 
+    deleteHabitById
 }

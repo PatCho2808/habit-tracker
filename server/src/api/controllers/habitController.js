@@ -35,6 +35,24 @@ const updateHabit = async (req, res, next) => {
     }
 };
 
+const getHabitById = async (req, res, next) => {
+    try {
+        const habit = await habitService.getHabitById(req.params.id, req.user.id);
+        res.json(getHabitJson(habit)); 
+    } catch (error) {
+        next(error); 
+    }
+}; 
+
+const deleteHabitById = async (req, res, next) => {
+    try {
+        habitService.deleteHabitById(req.params.id); 
+        getAllHabits(req, res, next); 
+    } catch (error) {
+        next(error); 
+    }
+}; 
+
 const getHabitJson = habit => {
     return {
         "_id": habit.id,
@@ -49,5 +67,7 @@ const getHabitJson = habit => {
 module.exports = {
     createHabit,
     getAllHabits,
-    updateHabit
+    updateHabit, 
+    getHabitById, 
+    deleteHabitById, 
 }
