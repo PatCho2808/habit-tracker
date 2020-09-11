@@ -79,6 +79,13 @@ const computeCurrentStreak = dates => {
     return streak; 
 };
 
+habitSchema.virtual('doneAtDates').get(function(){
+    return this.doneAt.map( el => {
+        return new Date(el); 
+    });
+}); 
+
+
 const Habit = mongoose.model('Habit', habitSchema);
 
 module.exports = Habit; 
