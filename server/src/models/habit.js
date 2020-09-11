@@ -41,30 +41,45 @@ const habitSchema = new mongoose.Schema({
     rewards: [rewardSchema]
 }, { timestamps: true });
 
-habitSchema.pre('save', function (next) {
-    let habit = this;
-    if (!habit.isModified('doneAt')) return next();
-    habit.doneAt.sort((a, b) => {
-        return b - a;
+habitSchema.virtual('doneAtDates').get(function () {
+    return this.doneAt.map(el => {
+        return new Date(el);
     });
-    next();
 });
 
-habitSchema.pre('save', function (next) {
-    let habit = this;
-    if (!habit.isModified('doneAt')) return next();
-    const lastDate = habit.doneAt[0];
+habitSchema.methods.addReward = async function (reward) {
+    this.rewards.push(reward);
+};
+
+habitSchema.methods.addDoneAt = async function (date) {
+    habit.doneAt.push(timeService.getZeroTimeFromDateString(date));
+};
+
+habitSchema.methods.updateStreaks = function () {
+    habit.sortDoneAt(); 
+    const lastDate = this.doneAt[0];
     let streak = 0;
     if (lastDate === timeService.getCurrentTime()) {
         streak = 1 + computeCurrentStreak(habit.doneAt);
     }
-    habit.currentStreak = streak;
-    if (habit.currentStreak > habit.longestStreak) {
-        habit.longestStreak = habit.currentStreak;
+    this.currentStreak = streak;
+    if (this.currentStreak > this.longestStreak) {
+        this.longestStreak = this.currentStreak;
     }
+};
+
+habitSchema.methods.sortDoneAt = function () {
+    this.doneAt.sort((a, b) => {
+        return b - a;
+    });
+};
+
+habitSchema.pre('save', function (next) {
+    let habit = this;
+    if (!habit.isModified('doneAt')) return next();
+    habit.updateStreaks();
     next();
 });
-
 
 const computeCurrentStreak = dates => {
     let streak = 0;
@@ -78,20 +93,6 @@ const computeCurrentStreak = dates => {
         }
     }
     return streak;
-};
-
-habitSchema.virtual('doneAtDates').get(function () {
-    return this.doneAt.map(el => {
-        return new Date(el);
-    });
-});
-
-habitSchema.methods.addReward = async function (reward) {
-    this.rewards.push(reward);
-};
-
-habitSchema.methods.addDoneAt = async function (date) {
-    habit.doneAt.push(timeService.getZeroTimeFromDateString(date));
 };
 
 const Habit = mongoose.model('Habit', habitSchema);
