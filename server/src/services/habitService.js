@@ -1,5 +1,5 @@
 const Habit = require('../models/habit');
-const timeSerice = require('./timeService'); 
+const timeSerice = require('./timeService');
 
 const createHabit = async (habit, user) => {
     habit.weekdays = convertWeekdaysToNumbers(habit.weekdays);
@@ -36,39 +36,28 @@ const getAllHabitsByUser = async (user) => {
     }
 };
 
-const getHabitById = async(habitId, userId) => {
+const getHabitById = async (habitId, userId) => {
     const habit = await Habit.findById(habitId);
-    if(habit.userId !== userId){
-        throw new Error('User id do not match'); 
-    } 
-    return habit; 
+    if (habit.userId !== userId) {
+        throw new Error('User id do not match');
+    }
+    return habit;
 };
 
-const addDateToHabit = async (habit, newDates) => {
-    newDates.forEach(date => {
-        let newDate = timeService.setTimeToZero(new Date(date));
-        habit.doneAt.push(newDate.getTime())
-    });
-    const savedHabit = await habit.save();
-    return savedHabit;
-};
-
-const addReward = async (habit, reward) => {
-    console.log(habit); 
-    habit.rewards.push(reward); 
+const updateHabit = async (habit, newParams) => {
+    if (newParams.rewards) {
+        newParams.rewards.forEach(reward => habit.addReward(reward));
+    }
+    if (newParams.doneAt) {
+        newParams.doneAt.forEach(date => habit.addDoneAt(date)); 
+    }
     const savedHabit = await habit.save(); 
-}; 
-
-const updateHabit = async (habitId, userId, body) => {
-    const habit = await getHabitById(habitId, userId); 
-    const savedHabit = await habit.addReward(body.reward[0]);
-    return savedHabit;  
+    return savedHabit;
 }
 
 module.exports = {
     createHabit,
     getAllHabitsByUser,
     getHabitById,
-    addDateToHabit, 
     updateHabit
 }

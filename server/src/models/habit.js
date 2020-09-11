@@ -88,8 +88,10 @@ habitSchema.virtual('doneAtDates').get(function () {
 
 habitSchema.methods.addReward = async function (reward) {
     this.rewards.push(reward);
-    const saved = await this.save();
-    return saved; 
+};
+
+habitSchema.methods.addDoneAt = async function (date) {
+    habit.doneAt.push(timeService.getZeroTimeFromDateString(date));
 };
 
 const Habit = mongoose.model('Habit', habitSchema);

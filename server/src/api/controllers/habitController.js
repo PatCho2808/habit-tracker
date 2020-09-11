@@ -27,8 +27,9 @@ const getAllHabits = async (req, res, next) => {
 const updateHabit = async (req, res, next) => {
     const body = req.body;
     try {
-        const habit = await habitService.updateHabit(req.params.id, req.user.id, body); 
-        res.json(getHabitJson(habit));
+        const habit = await habitService.getHabitById(req.params.id, req.user.id); 
+        const updatedHabit = await habitService.updateHabit(habit, body);  
+        res.json(getHabitJson(updatedHabit));
     } catch (error) {
         next(error);
     }

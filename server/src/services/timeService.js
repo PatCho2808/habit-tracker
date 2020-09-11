@@ -11,7 +11,13 @@ const getCurrentTime = () => {
     return today.getTime();
 };
 
+const getZeroTimeFromDateString = dateString => {
+    const date = new Date(dateString); 
+    const zeroDate = date.setTimeToZero(); 
+    return zeroDate.getTime(); 
+}
+
 module.exports = {
-    setTimeToZero, 
-    getCurrentTime
+    getCurrentTime,
+    getZeroTimeFromDateString
 }
