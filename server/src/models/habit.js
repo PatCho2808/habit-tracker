@@ -11,22 +11,30 @@ const habitSchema = new mongoose.Schema({
     startDate: {
         type: Date,
         required: true,
-        default: new Date()
+        default: timeService.getCurrentDate()
     },
     weekdays: {
         type: [Number],
         required: true
     },
     userId: {
-        type: String,
+        type: mongoose.ObjectId,
         required: true
     },
     doneAt: {
         type: [Number],
         default: [],
-        validate: dates => {
+        validate: function(dates){
             if (new Set(dates).size !== dates.length) {
                 throw new Error("Dates have to be unique");
+            }
+            const firstDate = timeService.getZeroTimeFromDateString(dates[dates.length-1]); 
+            if(firstDate < this.startDate.getTime()){
+                throw new Error("Date cannot be lesser than startDate");
+            }
+            const lastDate = timeService.getZeroTimeFromDateString(dates[0]); 
+            if(lastDate < timeService.getCurrentTime()){
+                throw new Error("Date cannot be greater than today");
             }
         }
     },

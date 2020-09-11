@@ -38,9 +38,9 @@ const getAllHabitsByUser = async (user) => {
 
 const getHabitById = async (habitId, userId) => {
     const habit = await Habit.findById(habitId);
-    if (habit.userId !== userId) {
-        throw new Error('User id do not match');
-    }
+    // if (habit.userId !== userId) {
+    //     throw new Error('User id do not match');
+    // }
     return habit;
 };
 
