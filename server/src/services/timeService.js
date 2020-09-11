@@ -13,7 +13,7 @@ const getCurrentTime = () => {
 
 const getZeroTimeFromDateString = dateString => {
     const date = new Date(dateString); 
-    const zeroDate = date.setTimeToZero(); 
+    const zeroDate = setTimeToZero(date); 
     return zeroDate.getTime(); 
 }
 

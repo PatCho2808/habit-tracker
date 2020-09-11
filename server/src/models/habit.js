@@ -52,25 +52,34 @@ habitSchema.methods.addReward = async function (reward) {
 };
 
 habitSchema.methods.addDoneAt = async function (date) {
-    habit.doneAt.push(timeService.getZeroTimeFromDateString(date));
+    this.doneAt.push(timeService.getZeroTimeFromDateString(date));
 };
 
 habitSchema.methods.updateStreaks = function () {
-    habit.sortDoneAt(); 
+    this.sortDoneAt();
     const lastDate = this.doneAt[0];
     let streak = 0;
     if (lastDate === timeService.getCurrentTime()) {
-        streak = 1 + computeCurrentStreak(habit.doneAt);
+        streak = 1 + computeCurrentStreak(this.doneAt);
     }
     this.currentStreak = streak;
     if (this.currentStreak > this.longestStreak) {
         this.longestStreak = this.currentStreak;
     }
+    this.updateRewards();
 };
 
 habitSchema.methods.sortDoneAt = function () {
     this.doneAt.sort((a, b) => {
         return b - a;
+    });
+};
+
+habitSchema.methods.updateRewards = function () {
+    this.rewards.forEach(reward => {
+        if(!reward.done && reward.requiredStreak <= this.currentStreak){
+            reward.done = true; 
+        }
     });
 };
 
