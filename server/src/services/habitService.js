@@ -36,8 +36,15 @@ const getAllHabitsByUser = async (user) => {
     }
 };
 
-const addDateToHabit = async (habitId, newDates) => {
-    let habit = await Habit.findById(habitId);
+const getHabitById = async(habitId, userId) => {
+    const habit = await Habit.findById(habitId);
+    if(habit.userId !== userId){
+        throw new Error('User id do not match'); 
+    } 
+    return habit; 
+};
+
+const addDateToHabit = async (habit, newDates) => {
     newDates.forEach(date => {
         let newDate = timeService.setTimeToZero(new Date(date));
         habit.doneAt.push(newDate.getTime())
@@ -46,8 +53,22 @@ const addDateToHabit = async (habitId, newDates) => {
     return savedHabit;
 };
 
+const addReward = async (habit, reward) => {
+    console.log(habit); 
+    habit.rewards.push(reward); 
+    const savedHabit = await habit.save(); 
+}; 
+
+const updateHabit = async (habitId, userId, body) => {
+    const habit = await getHabitById(habitId, userId); 
+    const savedHabit = await habit.addReward(body.reward[0]);
+    return savedHabit;  
+}
+
 module.exports = {
     createHabit,
     getAllHabitsByUser,
-    addDateToHabit
+    getHabitById,
+    addDateToHabit, 
+    updateHabit
 }

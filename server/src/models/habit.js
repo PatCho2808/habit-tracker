@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
-const timeService = require('../services/timeService'); 
+const timeService = require('../services/timeService');
+const rewardSchema = require('./reward')
 
 const habitSchema = new mongoose.Schema({
     name: {
@@ -31,12 +32,13 @@ const habitSchema = new mongoose.Schema({
     },
     currentStreak: {
         type: Number,
-        default: 0 
-    },
-    longestStreak:{
-        type: Number, 
         default: 0
-    }
+    },
+    longestStreak: {
+        type: Number,
+        default: 0
+    },
+    rewards: [rewardSchema]
 }, { timestamps: true });
 
 habitSchema.pre('save', function (next) {
@@ -54,7 +56,7 @@ habitSchema.pre('save', function (next) {
     const lastDate = habit.doneAt[0];
     let streak = 0;
     if (lastDate === timeService.getCurrentTime()) {
-        streak = 1 + computeCurrentStreak(habit.doneAt); 
+        streak = 1 + computeCurrentStreak(habit.doneAt);
     }
     habit.currentStreak = streak;
     if (habit.currentStreak > habit.longestStreak) {
@@ -65,7 +67,7 @@ habitSchema.pre('save', function (next) {
 
 
 const computeCurrentStreak = dates => {
-    let streak = 0; 
+    let streak = 0;
     for (let i = 1; i < dates.length; i++) {
         const prevDate = new Date(dates[i - 1]);
         prevDate.setDate(prevDate.getDate() - 1);
@@ -75,14 +77,20 @@ const computeCurrentStreak = dates => {
             break;
         }
     }
-    return streak; 
+    return streak;
 };
 
-habitSchema.virtual('doneAtDates').get(function(){
-    return this.doneAt.map( el => {
-        return new Date(el); 
+habitSchema.virtual('doneAtDates').get(function () {
+    return this.doneAt.map(el => {
+        return new Date(el);
     });
-}); 
+});
+
+habitSchema.methods.addReward = async function (reward) {
+    this.rewards.push(reward);
+    const saved = await this.save();
+    return saved; 
+};
 
 const Habit = mongoose.model('Habit', habitSchema);
 

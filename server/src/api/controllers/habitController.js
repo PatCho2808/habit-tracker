@@ -15,7 +15,7 @@ const createHabit = async (req, res, next) => {
 const getAllHabits = async (req, res, next) => {
     try {
         const habits = await habitService.getAllHabitsByUser(req.user);
-        const json = habits.map( habit => {
+        const json = habits.map(habit => {
             return getHabitJson(habit);
         });
         res.json(json);
@@ -25,8 +25,9 @@ const getAllHabits = async (req, res, next) => {
 }
 
 const updateHabit = async (req, res, next) => {
+    const body = req.body;
     try {
-        const habit = await habitService.addDateToHabit(req.params.id, req.body.date);
+        const habit = await habitService.updateHabit(req.params.id, req.user.id, body); 
         res.json(getHabitJson(habit));
     } catch (error) {
         next(error);
@@ -39,7 +40,8 @@ const getHabitJson = habit => {
         "name": habit.name,
         "dates": habit.doneAtDates,
         "currentStreak": habit.currentStreak,
-        "longestStreak": habit.longestStreak
+        "longestStreak": habit.longestStreak, 
+        "rewards": habit.rewards
     }
 }
 
