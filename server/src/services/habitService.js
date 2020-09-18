@@ -31,7 +31,7 @@ const getAllHabitsByUser = async (user) => {
     try {
         const userID =  new ObjectId(user.id);
         const query = { "userId": userID }; 
-        const habits = await Habit.find({});
+        const habits = await Habit.find(query);
         return habits;
     } catch (error) {
         throw error;
@@ -40,9 +40,9 @@ const getAllHabitsByUser = async (user) => {
 
 const getHabitById = async (habitId, userId) => {
     const habit = await Habit.findById(habitId);
-    // if (habit.userId !== userId) {
-    //     throw new Error('User id do not match');
-    // }
+    if (habit.userId !== userId) {
+        throw new Error('User id do not match');
+    }
     return habit;
 };
 

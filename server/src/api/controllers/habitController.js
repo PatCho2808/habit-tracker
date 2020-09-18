@@ -5,7 +5,7 @@ const createHabit = async (req, res, next) => {
     try {
         const newHabitId = await habitService.createHabit(body, req.user);
         res.json({
-            "id": newHabitId
+            "_id": newHabitId
         });
     } catch (error) {
         return next(error);
@@ -20,7 +20,7 @@ const getAllHabits = async (req, res, next) => {
         });
         res.json(json);
     } catch (error) {
-        next(error);
+        return next(error);
     }
 }
 
@@ -31,7 +31,7 @@ const updateHabit = async (req, res, next) => {
         const updatedHabit = await habitService.updateHabit(habit, body);  
         res.json(getHabitJson(updatedHabit));
     } catch (error) {
-        next(error);
+       return next(error);
     }
 };
 
@@ -40,7 +40,7 @@ const getHabitById = async (req, res, next) => {
         const habit = await habitService.getHabitById(req.params.id, req.user.id);
         res.json(getHabitJson(habit)); 
     } catch (error) {
-        next(error); 
+       return  next(error); 
     }
 }; 
 
@@ -49,7 +49,7 @@ const deleteHabitById = async (req, res, next) => {
         habitService.deleteHabitById(req.params.id); 
         getAllHabits(req, res, next); 
     } catch (error) {
-        next(error); 
+        return next(error); 
     }
 }; 
 

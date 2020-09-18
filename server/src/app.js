@@ -20,7 +20,9 @@ const habitRoutes = require('./api/routes/habitRoutes');
 const authRoutes = require('./api/routes/authRoutes');
 
 app.use(express.json());
-app.use(volleyball);
+if(process.env.NODE_ENV !== 'TEST'){
+    app.use(volleyball);
+}
 
 app.use('/api/habits', habitRoutes);
 app.use('/api/auth', authRoutes);
