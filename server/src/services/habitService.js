@@ -1,5 +1,6 @@
 const Habit = require('../models/habit');
 const timeSerice = require('./timeService');
+const ObjectId = require('mongoose').Types.ObjectId; 
 
 const createHabit = async (habit, user) => {
     habit.weekdays = convertWeekdaysToNumbers(habit.weekdays);
@@ -28,8 +29,9 @@ const convertWeekdaysToNumbers = weekdays => {
 
 const getAllHabitsByUser = async (user) => {
     try {
-        console.log(user);
-        const habits = await Habit.find({ "userId": user.id });
+        const userID =  new ObjectId(user.id);
+        const query = { "userId": userID }; 
+        const habits = await Habit.find({});
         return habits;
     } catch (error) {
         throw error;

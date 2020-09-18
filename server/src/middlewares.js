@@ -20,7 +20,7 @@ const authenticateToken = (req, res, next) => {
     const token = authHeader && authHeader.split(' ')[1]; 
     if(!token) {
         res.status(401); 
-        next(new Error("Token cannot be empty")) 
+        return next(new Error("Token cannot be empty"));  
     }
     jwt.verify(token, process.env.API_SECRET, (err, user) => {
         if(err) {

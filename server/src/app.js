@@ -11,16 +11,19 @@ const { db_url } = require('./config');
 db.connect(db_url, {
     useNewUrlParser: true,
     useUnifiedTopology: true
-});
+})
+    .then(() => console.log('connection to db succesfull'))
+    .catch(err => console.log(err));
+
 
 const habitRoutes = require('./api/routes/habitRoutes');
-const authRoutes = require('./api/routes/authRoutes'); 
+const authRoutes = require('./api/routes/authRoutes');
 
 app.use(express.json());
-app.use(volleyball); 
+app.use(volleyball);
 
 app.use('/api/habits', habitRoutes);
-app.use('/api/auth', authRoutes); 
+app.use('/api/auth', authRoutes);
 
 app.use(middlewares.notFound);
 app.use(middlewares.errorHandler);
