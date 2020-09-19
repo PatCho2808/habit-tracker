@@ -19,6 +19,7 @@ const testId = '5f646458ebe6e12fea623011';
 
 describe('Habit', function(){
     describe('Get all', function () {
+
         before(async function () {
             try {
                 await db.connect(db_url, {
@@ -47,17 +48,20 @@ describe('Habit', function(){
                 console.error(error);
             }
         });
+
         after(async function () {
             await Habit.deleteMany({});
         });
+
         describe('without authorization', function () {
-            it('should get an authorization error', function (done) {
+            it('should get an authorization error', function () {
                 chai.request(app).get('/api/habits').end(function (err, res) {
                     res.should.have.status(401);
                     done(); 
                 });
             });
         });
+
         describe('with authorization', function () {
             it('should get two habits', function (done) {
                 chai.request(app)
@@ -75,9 +79,11 @@ describe('Habit', function(){
     
     
     describe('Create new', function () {
+
         after(async function () {
             await Habit.deleteMany({});
         })
+
         describe('without authorization', function () {
             it('should get an authorization error', function (done) {
                 chai.request(app).post('/api/habits').end(function (err, res) {
@@ -86,6 +92,7 @@ describe('Habit', function(){
                 });
             });
         });
+
         describe('without name', function () {
             it('should get an internal error', function (done) {
                 chai.request(app)
@@ -100,6 +107,7 @@ describe('Habit', function(){
                     });
             });
         });
+
         describe('without weekdays', function () {
             it('should get an internal error', function (done) {
                 chai.request(app)
@@ -114,6 +122,7 @@ describe('Habit', function(){
                     });
             });
         });
+
         describe('with authorization', function () {
             it('should insert one habit wihout any errors', function (done) {
                 chai.request(app)
@@ -135,6 +144,7 @@ describe('Habit', function(){
     
     
     describe('Get one by id', function () {
+
         beforeEach(async function () {
             try {
                 await db.connect(db_url, {
@@ -152,9 +162,11 @@ describe('Habit', function(){
                 console.error(error);
             }
         });
+
         afterEach(async function () {
             await Habit.findByIdAndDelete(this.currentTest.habitId);
         });
+        
         describe('without authorization', function () {
             it('should get an authorization error', function (done) {
                 chai.request(app)
@@ -165,6 +177,7 @@ describe('Habit', function(){
                     });
             });
         });
+
         describe('with wrong authorization', function () {
             it('should get an authorization error', function (done) {
                 chai.request(app)
@@ -176,6 +189,7 @@ describe('Habit', function(){
                     });
             });
         });
+
         describe('with authorization', function () {
             it('should get one habit', function (done) {
                 chai.request(app)
@@ -193,6 +207,7 @@ describe('Habit', function(){
     
     
     describe('Update', function () {
+
         beforeEach(async function () {
             try {
                 await db.connect(db_url, {
@@ -210,9 +225,11 @@ describe('Habit', function(){
                 console.error(error);
             }
         });
+
         afterEach(async function () {
             await Habit.findByIdAndDelete(this.currentTest.habitId);
         });
+
         describe('without authorization', function () {
             it('should get an authorization error', function (done) {
                 chai.request(app).patch(`/api/habits/${this.test.habitId}`).end(function (err, res) {
@@ -221,6 +238,7 @@ describe('Habit', function(){
                 });
             });
         });
+
         describe('with wrong authorization', function () {
             it('should get an authorization error', function (done) {
                 chai.request(app)
@@ -232,6 +250,7 @@ describe('Habit', function(){
                     });
             });
         });
+        
         describe('with authorization', function () {
             it('should update one habit', function (done) {
                 chai.request(app)
