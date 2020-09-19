@@ -3,8 +3,8 @@ const userService = require('../../services/authService');
 const signup = async (req, res, next) => {
     const body = req.body;
     try {
-        const jwt = await userService.createUser(body);
-        res.json(jwt);
+        const token = await userService.createUser(body);
+        res.json({token});
     } catch (error) {
         return next(error);
     }

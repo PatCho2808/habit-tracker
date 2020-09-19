@@ -1,3 +1,6 @@
+
+process.env.NODE_ENV = 'TEST';
+
 const chai = require('chai');
 const should = chai.should();
 const chaiHttp = require('chai-http');
@@ -5,12 +8,13 @@ const Habit = require('../../models/habit');
 const ObjectId = require('mongoose').Types.ObjectId;
 const db = require('mongoose');
 const { db_url } = require('../../config');
+const app = require('../../app');
 
 chai.use(chaiHttp);
 
-process.env.NODE_ENV = 'TEST';
 
-const app = require('../../app');
+
+
 
 const validToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVmNjVlYzFlMzY0ZmYxNDMxZmRkNmE2MiIsInVzZXJuYW1lIjoidGVzdF92YWxpZCJ9.BiSwP6NA2qTNwnjFR43MhciGSqHArwMiMUBnUrSi2SM';
 const invalidToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVmNjVlYzQxMzY0ZmYxNDMxZmRkNmE2MyIsInVzZXJuYW1lIjoidGVzdF9pbnZhbGlkIn0.8kIG_Bmxh9riLpeuJXZmmJQ45LPN5Jabdgw_XYHBzP0';

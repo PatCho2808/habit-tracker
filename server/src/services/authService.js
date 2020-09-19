@@ -8,6 +8,7 @@ const createUser = async user => {
         newUser = await newUser.save();
         return await getToken(newUser); ;
     } catch (error) {
+        console.log(error); 
         throw error;
     }
 };
@@ -31,7 +32,7 @@ const getToken = async user => {
         'id': user.id,
         'username': user.username, 
     }, api_secret);
-    return token;  
+    return token; 
 }; 
 
 
