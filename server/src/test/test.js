@@ -54,7 +54,7 @@ describe('Habit', function(){
         });
 
         describe('without authorization', function () {
-            it('should get an authorization error', function () {
+            it('should get an authorization error', function (done) {
                 chai.request(app).get('/api/habits').end(function (err, res) {
                     res.should.have.status(401);
                     done(); 
@@ -250,7 +250,7 @@ describe('Habit', function(){
                     });
             });
         });
-        
+
         describe('with authorization', function () {
             it('should update one habit', function (done) {
                 chai.request(app)
@@ -265,6 +265,65 @@ describe('Habit', function(){
                         updatedHabit.dates.should.be.lengthOf(1);
                         updatedHabit.currentStreak.should.be.equal(1);
                         updatedHabit.longestStreak.should.be.equal(1);
+                        done(); 
+                    });
+            });
+        });
+    });
+
+    describe('Delete', function () {
+
+        beforeEach(async function () {
+            try {
+                await db.connect(db_url, {
+                    useNewUrlParser: true,
+                    useUnifiedTopology: true
+                });
+                const habit = new Habit({
+                    "name": "test",
+                    "weekdays": [0],
+                    "userId": new ObjectId(adminId)
+                });
+                const savedHabit = await habit.save();
+                this.currentTest.habitId = savedHabit.id;
+            } catch (error) {
+                console.error(error);
+            }
+        });
+
+        afterEach(async function () {
+            await Habit.findByIdAndDelete(this.currentTest.habitId);
+        });
+
+        describe('without authorization', function () {
+            it('should get an authorization error', function (done) {
+                chai.request(app).delete(`/api/habits/${this.test.habitId}`).end(function (err, res) {
+                    res.should.have.status(401);
+                    done(); 
+                });
+            });
+        });
+
+        // describe('with wrong authorization', function () {
+        //     it('should get an authorization error', function (done) {
+        //         chai.request(app)
+        //             .delete(`/api/habits/${this.test.habitId}`)
+        //             .set('Authorization', `Bearer ${test_token}`)
+        //             .end(function (err, res) {
+        //                 res.should.have.status(401);
+        //                 done(); 
+        //             });
+        //     });
+        // });
+        
+        describe('with authorization', function () {
+            it('should delete one habit', function (done) {
+                chai.request(app)
+                    .delete(`/api/habits/${this.test.habitId}`)
+                    .set('Authorization', `Bearer ${admin_token}`)
+                    .end(function (err, res) {
+                        res.should.have.status(200);
+                        res.body.should.be.lengthOf(0); 
                         done(); 
                     });
             });
