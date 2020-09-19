@@ -12,10 +12,11 @@ process.env.NODE_ENV = 'TEST';
 
 const app = require('../app');
 
-const admin_token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVmNThjNTNhNjhjMGIwMGU3YmRhMDIzZCIsInVzZXJuYW1lIjoiYWRtaW4iLCJpYXQiOjE1OTk3MzE3MTR9.87l_mHRy-qyhXPTN4fDLbvRfdb8TW0MJq1qSdUGR5fI';
-const test_token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVmNjQ2NDU4ZWJlNmUxMmZlYTYyMzAxMSIsInVzZXJuYW1lIjoidGVzdF9pbnNlcnQiLCJpYXQiOjE2MDA0MTQ4MDh9.hrnlpfklD4sLMZL8CPw6Fg414a8AzxHL9py4_NwfRYE';
-const adminId = '5f58c53a68c0b00e7bda023d';
-const testId = '5f646458ebe6e12fea623011';
+const validToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVmNjVlYzFlMzY0ZmYxNDMxZmRkNmE2MiIsInVzZXJuYW1lIjoidGVzdF92YWxpZCJ9.BiSwP6NA2qTNwnjFR43MhciGSqHArwMiMUBnUrSi2SM';
+const invalidToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVmNjVlYzQxMzY0ZmYxNDMxZmRkNmE2MyIsInVzZXJuYW1lIjoidGVzdF9pbnZhbGlkIn0.8kIG_Bmxh9riLpeuJXZmmJQ45LPN5Jabdgw_XYHBzP0';
+
+const validId = '5f65ec1e364ff1431fdd6a62';
+const invalidId = '5f65ec41364ff1431fdd6a63';
 
 describe('Habit', function(){
     describe('Get all', function () {
@@ -29,19 +30,19 @@ describe('Habit', function(){
                 const habit1 = new Habit({
                     "name": "test1",
                     "weekdays": [0],
-                    "userId": new ObjectId(adminId)
+                    "userId": new ObjectId(validId)
                 });
                 await habit1.save();
                 const habit2 = new Habit({
                     "name": "test2",
                     "weekdays": [0],
-                    "userId": new ObjectId(adminId)
+                    "userId": new ObjectId(validId)
                 });
                 await habit2.save();
                 const habit3 = new Habit({
                     "name": "test3",
                     "weekdays": [0],
-                    "userId": new ObjectId(testId)
+                    "userId": new ObjectId(invalidId)
                 });
                 await habit3.save();
             } catch (error) {
@@ -66,7 +67,7 @@ describe('Habit', function(){
             it('should get two habits', function (done) {
                 chai.request(app)
                     .get('/api/habits')
-                    .set('Authorization', `Bearer ${admin_token}`)
+                    .set('Authorization', `Bearer ${validToken}`)
                     .end(function (err, res) {
                         res.should.have.status(200);
                         const habits = res.body;
@@ -97,7 +98,7 @@ describe('Habit', function(){
             it('should get an internal error', function (done) {
                 chai.request(app)
                     .post('/api/habits')
-                    .set('Authorization', `Bearer ${test_token}`)
+                    .set('Authorization', `Bearer ${invalidToken}`)
                     .send({
                         "weekdays": ["Tuesday"]
                     })
@@ -112,7 +113,7 @@ describe('Habit', function(){
             it('should get an internal error', function (done) {
                 chai.request(app)
                     .post('/api/habits')
-                    .set('Authorization', `Bearer ${test_token}`)
+                    .set('Authorization', `Bearer ${invalidToken}`)
                     .send({
                         "name": "test_insert"
                     })
@@ -127,7 +128,7 @@ describe('Habit', function(){
             it('should insert one habit wihout any errors', function (done) {
                 chai.request(app)
                     .post('/api/habits')
-                    .set('Authorization', `Bearer ${test_token}`)
+                    .set('Authorization', `Bearer ${validToken}`)
                     .send({
                         "name": "test_insert",
                         "weekdays": ["Tuesday"]
@@ -154,7 +155,7 @@ describe('Habit', function(){
                 const habit = new Habit({
                     "name": "test",
                     "weekdays": [0],
-                    "userId": new ObjectId(adminId)
+                    "userId": new ObjectId(validId)
                 });
                 const savedHabit = await habit.save();
                 this.currentTest.habitId = savedHabit.id;
@@ -182,7 +183,7 @@ describe('Habit', function(){
             it('should get an authorization error', function (done) {
                 chai.request(app)
                     .get(`/api/habits/${this.test.habitId}`)
-                    .set('Authorization', `Bearer ${test_token}`)
+                    .set('Authorization', `Bearer ${invalidToken}`)
                     .end(function (err, res) {
                         res.should.have.status(401);
                         done(); 
@@ -194,7 +195,7 @@ describe('Habit', function(){
             it('should get one habit', function (done) {
                 chai.request(app)
                     .get(`/api/habits/${this.test.habitId}`)
-                    .set('Authorization', `Bearer ${admin_token}`)
+                    .set('Authorization', `Bearer ${validToken}`)
                     .end(function (err, res) {
                         res.should.have.status(200);
                         const name = res.body.name;
@@ -217,7 +218,7 @@ describe('Habit', function(){
                 const habit = new Habit({
                     "name": "test",
                     "weekdays": [0],
-                    "userId": new ObjectId(adminId)
+                    "userId": new ObjectId(validId)
                 });
                 const savedHabit = await habit.save();
                 this.currentTest.habitId = savedHabit.id;
@@ -243,7 +244,7 @@ describe('Habit', function(){
             it('should get an authorization error', function (done) {
                 chai.request(app)
                     .patch(`/api/habits/${this.test.habitId}`)
-                    .set('Authorization', `Bearer ${test_token}`)
+                    .set('Authorization', `Bearer ${invalidToken}`)
                     .end(function (err, res) {
                         res.should.have.status(401);
                         done(); 
@@ -255,7 +256,7 @@ describe('Habit', function(){
             it('should update one habit', function (done) {
                 chai.request(app)
                     .patch(`/api/habits/${this.test.habitId}`)
-                    .set('Authorization', `Bearer ${admin_token}`)
+                    .set('Authorization', `Bearer ${validToken}`)
                     .send({
                         "dates": [new Date()]
                     })
@@ -282,7 +283,7 @@ describe('Habit', function(){
                 const habit = new Habit({
                     "name": "test",
                     "weekdays": [0],
-                    "userId": new ObjectId(adminId)
+                    "userId": new ObjectId(validId)
                 });
                 const savedHabit = await habit.save();
                 this.currentTest.habitId = savedHabit.id;
@@ -320,7 +321,7 @@ describe('Habit', function(){
             it('should delete one habit', function (done) {
                 chai.request(app)
                     .delete(`/api/habits/${this.test.habitId}`)
-                    .set('Authorization', `Bearer ${admin_token}`)
+                    .set('Authorization', `Bearer ${validToken}`)
                     .end(function (err, res) {
                         res.should.have.status(200);
                         res.body.should.be.lengthOf(0); 

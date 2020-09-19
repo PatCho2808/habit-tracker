@@ -52,7 +52,7 @@ const getHabitById = async (req, res, next) => {
 
 const deleteHabitById = async (req, res, next) => {
     try {
-        habitService.deleteHabitById(req.params.id); 
+        await habitService.deleteHabitById(req.params.id); 
         getAllHabits(req, res, next); 
     } catch (error) {
         return next(error); 
