@@ -40,6 +40,11 @@ const getAllHabitsByUser = async (user) => {
 
 const getHabitById = async (habitId, userId) => {
     const habit = await Habit.findById(habitId);
+    if(!habit){
+        const error = new Error('Invalid habit id'); 
+        error.code = 404; 
+        throw error; 
+    }
     if (habit.userId != userId) {
         const error = new Error('User id do not match');
         error.code = 401; 
@@ -61,8 +66,8 @@ const updateHabit = async (habit, newParams) => {
     if (newParams.rewards) {
         newParams.rewards.forEach(reward => habit.addReward(reward));
     }
-    if (newParams.doneAt) {
-        newParams.doneAt.forEach(date => habit.addDoneAt(date)); 
+    if (newParams.dates) {
+        newParams.dates.forEach(date => habit.addDoneAt(date)); 
     }
     const savedHabit = await habit.save(); 
     return savedHabit;

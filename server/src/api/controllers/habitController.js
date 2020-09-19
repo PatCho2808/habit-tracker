@@ -43,7 +43,10 @@ const getHabitById = async (req, res, next) => {
         const habit = await habitService.getHabitById(req.params.id, req.user.id);
         res.json(getHabitJson(habit)); 
     } catch (error) {
-       return  next(error); 
+        if(error.code) {
+            res.statusCode = error.code;
+        }
+       return next(error);
     }
 }; 
 
