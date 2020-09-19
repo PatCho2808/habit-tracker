@@ -31,6 +31,9 @@ const updateHabit = async (req, res, next) => {
         const updatedHabit = await habitService.updateHabit(habit, body);  
         res.json(getHabitJson(updatedHabit));
     } catch (error) {
+        if(error.code) {
+            res.statusCode = error.code;
+        }
        return next(error);
     }
 };
