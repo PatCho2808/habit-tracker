@@ -23,7 +23,7 @@ describe('habitService', function () {
             });
             const habit = new Habit({
                 "name": "test",
-                "weekdays": [0],
+                "weekdays": [0, 1, 2, 3, 4, 5, 6],
                 "userId": new ObjectId(userId), 
                 "startDate": new Date('Mon Sep 21 2020 13:31:16')
             });

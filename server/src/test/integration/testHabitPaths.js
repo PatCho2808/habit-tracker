@@ -215,7 +215,7 @@ describe('Habit', function(){
                 });
                 const habit = new Habit({
                     "name": "test",
-                    "weekdays": [0],
+                    "weekdays": [0, 1, 2, 3, 4, 5, 6],
                     "userId": new ObjectId(validId)
                 });
                 const savedHabit = await habit.save();

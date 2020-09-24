@@ -60,6 +60,10 @@ habitSchema.methods.addReward = async function (reward) {
 };
 
 habitSchema.methods.addDoneAt = async function (date) {
+    const weekday = (new Date(date).getDay() || 7 ) - 1; 
+    if(!this.weekdays.includes(weekday)){
+        throw new Error('Invalid weekday'); 
+    }
     this.doneAt.push(timeService.getZeroTimeFromDateString(date));
 };
 
