@@ -83,6 +83,20 @@ habitSchema.methods.sortDoneAt = function () {
     });
 };
 
+const computeCurrentStreak = dates => {
+    let streak = 0;
+    for (let i = 1; i < dates.length; i++) {
+        const prevDate = new Date(dates[i - 1]);
+        prevDate.setDate(prevDate.getDate() - 1);
+        if (dates[i] === prevDate.getTime()) {
+            streak++;
+        } else {
+            break;
+        }
+    }
+    return streak;
+};
+
 habitSchema.methods.updateRewards = function () {
     this.rewards.forEach(reward => {
         if(!reward.done && reward.requiredStreak <= this.currentStreak){
@@ -97,20 +111,6 @@ habitSchema.pre('save', function (next) {
     habit.updateStreaks();
     next();
 });
-
-const computeCurrentStreak = dates => {
-    let streak = 0;
-    for (let i = 1; i < dates.length; i++) {
-        const prevDate = new Date(dates[i - 1]);
-        prevDate.setDate(prevDate.getDate() - 1);
-        if (dates[i] === prevDate.getTime()) {
-            streak++;
-        } else {
-            break;
-        }
-    }
-    return streak;
-};
 
 const Habit = mongoose.model('Habit', habitSchema);
 
