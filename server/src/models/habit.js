@@ -33,7 +33,7 @@ const habitSchema = new mongoose.Schema({
                 throw new Error("Date cannot be lesser than startDate");
             }
             const lastDate = timeService.getZeroTimeFromDateString(dates[0]); 
-            if(lastDate < timeService.getCurrentTime()){
+            if(lastDate > timeService.getCurrentTime()){
                 throw new Error("Date cannot be greater than today");
             }
         }

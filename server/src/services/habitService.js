@@ -61,7 +61,7 @@ const updateHabit = async (habit, newParams) => {
         habit.startDate = newParams.startDate; 
     }
     if (newParams.weekdays) {
-        habit.weekdays = newParams.weekdays; 
+        habit.weekdays = convertWeekdaysToNumbers(newParams.weekdays); 
     }
     if (newParams.rewards) {
         newParams.rewards.forEach(reward => habit.addReward(reward));

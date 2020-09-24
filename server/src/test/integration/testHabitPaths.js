@@ -1,4 +1,3 @@
-
 process.env.NODE_ENV = 'TEST';
 
 const chai = require('chai');
@@ -12,13 +11,8 @@ const app = require('../../app');
 
 chai.use(chaiHttp);
 
-
-
-
-
 const validToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVmNjVlYzFlMzY0ZmYxNDMxZmRkNmE2MiIsInVzZXJuYW1lIjoidGVzdF92YWxpZCJ9.BiSwP6NA2qTNwnjFR43MhciGSqHArwMiMUBnUrSi2SM';
 const invalidToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVmNjVlYzQxMzY0ZmYxNDMxZmRkNmE2MyIsInVzZXJuYW1lIjoidGVzdF9pbnZhbGlkIn0.8kIG_Bmxh9riLpeuJXZmmJQ45LPN5Jabdgw_XYHBzP0';
-
 const validId = '5f65ec1e364ff1431fdd6a62';
 const invalidId = '5f65ec41364ff1431fdd6a63';
 
