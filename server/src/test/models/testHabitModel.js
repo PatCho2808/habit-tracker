@@ -79,9 +79,11 @@ describe('habit model', function () {
                     wednesdayDate.setDate(wednesdayDate.getDate() - 1);
                 }
                 dates.push(wednesdayDate);
-                while (wednesdayDate.getDay() !== 1) {
-                    wednesdayDate.setDate(wednesdayDate.getDate() - 1);
+                let mondayDate = new Date(); 
+                while (mondayDate.getDay() !== 1) {
+                    mondayDate.setDate(mondayDate.getDate() - 1);
                 }
+                dates.push(mondayDate);
                 dates.forEach(date => this.test.habit.addDoneAt(date));
                 this.test.habit.updateStreaks();
                 this.test.habit.currentStreak.should.be.equal(2);

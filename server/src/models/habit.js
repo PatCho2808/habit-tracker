@@ -72,7 +72,7 @@ habitSchema.methods.updateStreaks = function () {
     const lastDate = this.doneAt[0];
     let streak = 0;
     if (lastDate === timeService.getCurrentTime()) {
-        streak = 1 + computeCurrentStreak(this.doneAt);
+        streak = 1 + computeCurrentStreak(this.doneAt, this.weekdays);
     }
     this.currentStreak = streak;
     if (this.currentStreak > this.longestStreak) {
@@ -87,11 +87,17 @@ habitSchema.methods.sortDoneAt = function () {
     });
 };
 
-const computeCurrentStreak = dates => {
+const computeCurrentStreak = (dates, weekdays) => {
     let streak = 0;
     for (let i = 1; i < dates.length; i++) {
         const prevDate = new Date(dates[i - 1]);
         prevDate.setDate(prevDate.getDate() - 1);
+        let day = (prevDate.getDay() || 7) - 1;
+        while(!weekdays.includes(day)){
+            prevDate.setDate(prevDate.getDate() - 1);
+            day = (prevDate.getDay() || 7) - 1;
+        }
+        console.log(day); 
         if (dates[i] === prevDate.getTime()) {
             streak++;
         } else {

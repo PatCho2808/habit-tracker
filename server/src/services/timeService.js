@@ -19,10 +19,44 @@ const getZeroTimeFromDateString = dateString => {
     const date = new Date(dateString);
     const zeroDate = setTimeToZero(date);
     return zeroDate.getTime();
+};
+
+const getCurrentWeekday = () => {
+    return new Date().getDay();
+};
+
+const getDayOfWeek = date => {
+    return (date.getDay() || 7) - 1; 
+}
+
+const getPrevDate = date => {
+    let newDate = date; 
+    date.setDate(newDate.getDate() - 1); 
+    return date; 
+};
+
+const getAreDatesFromTimesOccurAfterEachOther = (first, second) => {
+    const dateAfterSecond = new Date(second); 
+    dateAfterSecond.setDate(dateAfterSecond.getDate() + 1);
+    return dateAfterSecond.getTime() === first;    
+}; 
+
+const getPrevWeekday = (date, weekdays) => {
+    let newDate = getPrevDate(date); 
+    while(!weekdays.includes(getDayOfWeek(newDate))){
+        newDate = getPrevDate(newDate); 
+    }
+    return newDate; 
 }
 
 module.exports = {
     getCurrentTime,
     getCurrentDate,
-    getZeroTimeFromDateString
+    getZeroTimeFromDateString,
+    getCurrentWeekday, 
+    getCurrentWeekday,
+    getDayOfWeek, 
+    getPrevDate, 
+    getAreDatesFromTimesOccurAfterEachOther,
+    getPrevWeekday
 }
