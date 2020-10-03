@@ -252,13 +252,15 @@ describe('Habit', function(){
 
         describe('with authorization', function () {
             it('should update one habit', function (done) {
+                const today = new Date(); 
+                console.log('Today is: ', today); 
                 chai.request(app)
                     .patch(`/api/habits/${this.test.habitId}`)
                     .set('Authorization', `Bearer ${validToken}`)
                     .send({
-                        "dates": [new Date()]
+                        "dates": [today.toDateString()]
                     })
-                    .end(function (err, res) {
+                    .end(function (err, res) { 
                         res.should.have.status(200);
                         const updatedHabit = res.body;
                         updatedHabit.dates.should.be.lengthOf(1);
