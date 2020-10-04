@@ -12,10 +12,10 @@ const getCurrentDate = () => {
     return today = getDateFromDateTime(new Date());
 };
 
-const getDateFromDateString = dateString => {
-    const date = new Date(dateString);
-    const zeroDate = getDateFromDateTime(date);
-    return zeroDate.getTime();
+const getTimeFromDateString = dateString => {
+    const dateTime = new Date(dateString);
+    const date = getDateFromDateTime(dateTime);
+    return date.getTime();
 };
 
 const getCurrentWeekday = () => {
@@ -27,9 +27,9 @@ const getDayOfWeek = date => {
 }
 
 const getPrevDate = date => {
-    let newDate = date; 
-    date.setDate(newDate.getDate() - 1); 
-    return date; 
+    let newDate = new Date(date); 
+    newDate.setDate(newDate.getDate() - 1); 
+    return newDate; 
 };
 
 const getAreDatesFromTimesOccurAfterEachOther = (first, second) => {
@@ -38,10 +38,9 @@ const getAreDatesFromTimesOccurAfterEachOther = (first, second) => {
     return dateAfterSecond.getTime() === first;    
 }; 
 
-const getPrevWeekday = (date, weekdays) => {
-    console.log('co jest'); 
-    let newDate = getPrevDate(getDateFromDateTime(date)); 
-    console.log('new date: ', newDate); 
+const getPrevWeekday = (dateTime, weekdays) => {
+    const date = getDateFromDateTime(dateTime); 
+    let newDate = getPrevDate(date); 
     while(!weekdays.includes(getDayOfWeek(newDate))){
         newDate = getPrevDate(newDate); 
     }
@@ -52,7 +51,7 @@ module.exports = {
     getDateFromDateTime,
     getCurrentTime,
     getCurrentDate,
-    getDateFromDateString,
+    getTimeFromDateString,
     getCurrentWeekday, 
     getCurrentWeekday,
     getDayOfWeek, 

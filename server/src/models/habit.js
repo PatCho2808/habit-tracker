@@ -29,11 +29,11 @@ const habitSchema = new mongoose.Schema({
             if (new Set(dates).size !== dates.length) {
                 throw new Error("Dates have to be unique");
             }
-            const firstDate = timeService.getDateFromDateString(dates[dates.length - 1]);
+            const firstDate = timeService.getTimeFromDateString(dates[dates.length - 1]);
             if (firstDate < this.startDate.getTime()) {
                 throw new Error("Date cannot be lesser than startDate");
             }
-            const lastDate = timeService.getDateFromDateString(dates[0]);
+            const lastDate = timeService.getTimeFromDateString(dates[0]);
             if (lastDate > timeService.getCurrentTime()) {
                 throw new Error("Date cannot be greater than today");
             }
@@ -65,19 +65,16 @@ habitSchema.methods.addDoneAt = async function (date) {
     if (!this.weekdays.includes(weekday)) {
         throw new Error('Invalid weekday');
     }
-    this.doneAt.push(timeService.getDateFromDateString(date));
+    this.doneAt.push(timeService.getTimeFromDateString(date));
 };
 
 habitSchema.methods.updateStreaks = function () {
     this.sortDoneAt();
-
     const lastStreak = getLastStreak(this.doneAt.map( date => new Date(date)), this.weekdays); 
-    console.log('dates: ', this.doneAt, 'last streak: ', lastStreak); 
     this.currentStreak = lastStreak;
     if (this.currentStreak > this.longestStreak) {
         this.longestStreak = this.currentStreak;
     }
-
     this.updateRewards();
 };
 

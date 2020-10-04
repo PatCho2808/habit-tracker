@@ -21,9 +21,9 @@ describe('streak service - getLastStreak', function () {
 
         it('should get 2 days streak', function () {
             const dates = [
-                new Date('2020-01-30'),
-                new Date('2020-01-29'),
-                new Date('2020-01-15')
+                new Date(2020, 0, 30),
+                new Date(2020, 0, 29),
+                new Date(2020, 0, 15)
             ];
             const weekdays = [0, 1, 2, 3, 4, 5, 6];
             const streak = getLastStreak(dates, weekdays, new Date(dates[0]));
@@ -55,9 +55,9 @@ describe('streak service - getLastStreak', function () {
 
         it('should get 0 streak', function () {
             const dates = [
-                new Date(2020, 8, 24),  
-                new Date(2020, 8, 21), 
-                new Date(2020, 8, 14)  
+                new Date(2020, 8, 24),
+                new Date(2020, 8, 21),
+                new Date(2020, 8, 14)
             ];
             const weekdays = [0, 3];
             const streak = getLastStreak(dates, weekdays, dates[0]);

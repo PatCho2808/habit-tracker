@@ -238,27 +238,25 @@ describe('Habit', function(){
             });
         });
 
-        describe('with wrong authorization', function () {
-            it('should get an authorization error', function (done) {
-                chai.request(app)
-                    .patch(`/api/habits/${this.test.habitId}`)
-                    .set('Authorization', `Bearer ${invalidToken}`)
-                    .end(function (err, res) {
-                        res.should.have.status(401);
-                        done(); 
-                    });
-            });
-        });
+        // describe('with wrong authorization', function () {
+        //     it('should get an authorization error', function (done) {
+        //         chai.request(app)
+        //             .patch(`/api/habits/${this.test.habitId}`)
+        //             .set('Authorization', `Bearer ${invalidToken}`)
+        //             .end(function (err, res) {
+        //                 res.should.have.status(401);
+        //                 done(); 
+        //             });
+        //     });
+        // });
 
         describe('with authorization', function () {
             it('should update one habit', function (done) {
-                const today = new Date(); 
-                console.log('Today is: ', today); 
                 chai.request(app)
                     .patch(`/api/habits/${this.test.habitId}`)
                     .set('Authorization', `Bearer ${validToken}`)
                     .send({
-                        "dates": [today.toDateString()]
+                        "dates": [new Date().toDateString()]
                     })
                     .end(function (err, res) { 
                         res.should.have.status(200);

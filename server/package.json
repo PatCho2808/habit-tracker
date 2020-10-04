@@ -5,7 +5,7 @@
   "main": "server.js",
   "scripts": {
     "dev": "nodemon src/server.js",
-    "test": "clear \n mocha --exit src/test/services/testTimeService.js",
+    "test": "clear \n mocha --exit src/test/*",
     "debug": "nodemon --inspect src/server.js"
   },
   "keywords": [],
