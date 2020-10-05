@@ -20,7 +20,7 @@
           </form>
         </div>
         <div class="card-action">
-          <a class="waves-effect waves-light btn">{{ action }}</a>
+          <a class="waves-effect waves-light btn" @click="$emit('submit')">{{ action }}</a>
         </div>
       </div>
     </div>
