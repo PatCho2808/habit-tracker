@@ -9,7 +9,6 @@
       </div>
     </nav>
     <div id="container">
-      {{ authenticated }}
       <AuthComponent v-if="!authenticated" @authenticate="onAuthenticated" />
       <HabitsListComponent v-else />
     </div>
@@ -17,7 +16,8 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent, ref } from 'vue';
+import authService from './services/AuthService';
 import AuthComponent from './components/AuthComponent.vue';
 import HabitsListComponent from './components/HabitsListComponent.vue';
 
@@ -27,20 +27,24 @@ export default defineComponent({
     AuthComponent,
     HabitsListComponent,
   },
-  data() {
-    return {
-      authenticated: false,
+  setup() {
+    const authenticated = ref(authService.getIsAuthenticated());
+
+    const onAuthenticated = () => {
+      console.log('onAuthenticated');
+      authenticated.value = true;
     };
-  },
-  methods: {
-    onAuthenticated(): void {
-      this.authenticated = true;
-      console.log(this.authenticated);
-    },
-    logOut(): void {
-      this.authenticated = false;
-      // delete cookie
-    },
+
+    const logOut = () => {
+      console.log('logOut');
+      authenticated.value = false;
+    };
+
+    return {
+      authenticated,
+      onAuthenticated,
+      logOut,
+    };
   },
 });
 </script>
