@@ -4,26 +4,45 @@
       <div class="nav-wrapper purple darken-3">
         <a id="logo" href="#" class="brand-logo">Habit tracker</a>
         <ul id="nav-mobile" class="right hide-on-med-and-down">
+          <li v-if="authenticated"><a @click="logOut">Log out</a></li>
         </ul>
       </div>
     </nav>
     <div id="container">
-      <Auth></Auth>
+      {{ authenticated }}
+      <AuthComponent v-if="!authenticated" @authenticate="onAuthenticated" />
+      <HabitsListComponent v-else />
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import { Options, Vue } from 'vue-class-component';
-import Auth from './components/Auth.vue';
+import { defineComponent } from 'vue';
+import AuthComponent from './components/AuthComponent.vue';
+import HabitsListComponent from './components/HabitsListComponent.vue';
 
-@Options({
+export default defineComponent({
+  name: 'App',
   components: {
-    Auth,
+    AuthComponent,
+    HabitsListComponent,
   },
-})
-
-export default class App extends Vue {}
+  data() {
+    return {
+      authenticated: false,
+    };
+  },
+  methods: {
+    onAuthenticated(): void {
+      this.authenticated = true;
+      console.log(this.authenticated);
+    },
+    logOut(): void {
+      this.authenticated = false;
+      // delete cookie
+    },
+  },
+});
 </script>
 
 <style>

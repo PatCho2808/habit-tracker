@@ -32,10 +32,11 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import axios from 'axios';
+import { defineComponent } from 'vue';
 
-export default {
+export default defineComponent({
   name: 'AuthForm',
   props: {
     action: String,
@@ -50,27 +51,11 @@ export default {
   methods: {
     async onSubmit() {
       if (this.username && this.password) {
-        await this.sendRequest();
+        this.$emit('submit', this.username, this.password);
       } else {
         console.error('username and password cannot be empty');
       }
     },
-    async sendRequest() {
-      try {
-        const response = await axios({
-          method: 'post',
-          url: `http://localhost:3000/api/auth/${this.action}`,
-          data: {
-            username: this.username,
-            password: this.password,
-          },
-        });
-        this.$emit('authenticate', response.data.token);
-      } catch (error) {
-        console.error(error.message);
-        console.log('henlo');
-      }
-    },
   },
-};
+});
 </script>
