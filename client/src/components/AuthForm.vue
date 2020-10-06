@@ -2,25 +2,30 @@
   <div class="col s12 m6">
     <div class="card grey darken-1">
       <div class="card-content white-text">
-        <span class="card-title">{{ action }}</span>
+        <span class="card-title">{{ name }}</span>
         <div class="row">
           <form class="col s12">
             <div class="row">
               <div class="input-field col s12">
-                <input :id="'username_' + actionId" type="text" class="validate" />
-                <label :for="'username_' + actionId">Username</label>
+                <input :id="'username_' + action" type="text" class="validate" v-model="username" />
+                <label :for="'username_' + action">Username</label>
               </div>
             </div>
             <div class="row">
               <div class="input-field col s12">
-                <input :id="'password_' + actionId" type="password" class="validate" />
-                <label :for="'password_' + actionId">Password</label>
+                <input
+                  :id="'password_' + action"
+                  type="password"
+                  class="validate"
+                  v-model="password"
+                />
+                <label :for="'password_' + action">Password</label>
               </div>
             </div>
           </form>
         </div>
         <div class="card-action">
-          <a class="waves-effect waves-light btn" @click="$emit('submit')">{{ action }}</a>
+          <a class="waves-effect waves-light btn" @click="onSubmit">{{ name }}</a>
         </div>
       </div>
     </div>
@@ -28,14 +33,43 @@
 </template>
 
 <script>
+import axios from 'axios';
+
 export default {
   name: 'AuthForm',
   props: {
     action: String,
+    name: String,
   },
-  computed: {
-    actionId() {
-      return this.action.toLowerCase().replace(' ', '_');
+  data() {
+    return {
+      username: '',
+      password: '',
+    };
+  },
+  methods: {
+    async onSubmit() {
+      if (this.username && this.password) {
+        await this.sendRequest();
+      } else {
+        console.error('username and password cannot be empty');
+      }
+    },
+    async sendRequest() {
+      try {
+        const response = await axios({
+          method: 'post',
+          url: `http://localhost:3000/api/auth/${this.action}`,
+          data: {
+            username: this.username,
+            password: this.password,
+          },
+        });
+        this.$emit('authenticate', response.data.token);
+      } catch (error) {
+        console.error(error.message);
+        console.log('henlo');
+      }
     },
   },
 };
