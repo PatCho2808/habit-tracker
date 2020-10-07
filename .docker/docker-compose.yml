@@ -1,14 +1,14 @@
 version: "3.8"
 services:
   server:
-    build: 
-        dockerfile: './server/Dockerfile'
+    build:
+      context: "../server"
     ports:
       - "3000:3000"
     links:
       - client
-   client:
-    build: 
-        dockerfile: './client/Dockerfile'
+  client:
+    build:
+      context: "../client"
     ports:
       - "8080:8080"
