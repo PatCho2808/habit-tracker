@@ -1,7 +1,7 @@
 <template>
   <div class="row" id="auth">
-    <AuthFormComponent name="Log in" action="login" @submit="onSubmitLogin" />
-    <AuthFormComponent name="Sign Up" action="signup" @submit="onSubmitSignup" />
+    <AuthFormComponent name="Log in" action="login" @submit-auth-form="onSubmitLogin" />
+    <AuthFormComponent name="Sign Up" action="signup" @submit-auth-form="onSubmitSignup" />
   </div>
 </template>
 

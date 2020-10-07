@@ -4,7 +4,7 @@
       <div class="card-content white-text">
         <span class="card-title">{{ name }}</span>
         <div class="row">
-          <form class="col s12">
+          <form class="col s12" @submit="onSubmit">
             <div class="row">
               <div class="input-field col s12">
                 <input :id="'username_' + action" type="text" class="validate" v-model="username" />
@@ -22,10 +22,12 @@
                 <label :for="'password_' + action">Password</label>
               </div>
             </div>
+            <div class="card-action">
+              <button class="waves-effect waves-light btn" type="submit" value="submit">
+                {{ name }}
+              </button>
+            </div>
           </form>
-        </div>
-        <div class="card-action">
-          <a class="waves-effect waves-light btn" @click="onSubmit">{{ name }}</a>
         </div>
       </div>
     </div>
@@ -33,7 +35,6 @@
 </template>
 
 <script lang="ts">
-import axios from 'axios';
 import { defineComponent } from 'vue';
 
 export default defineComponent({
@@ -49,9 +50,10 @@ export default defineComponent({
     };
   },
   methods: {
-    async onSubmit() {
+    onSubmit(event: Event): void {
+      event.preventDefault();
       if (this.username && this.password) {
-        this.$emit('submit', this.username, this.password);
+        this.$emit('submit-auth-form', this.username, this.password);
       } else {
         console.error('username and password cannot be empty');
       }
