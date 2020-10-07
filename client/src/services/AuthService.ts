@@ -27,7 +27,7 @@ class AuthService {
       this.user.username = username;
       this.authenticated = true;
     } catch (error) {
-      console.error(error.message || `Error with sending ${action} request`);
+      throw new Error(error.message || `Error with sending ${action} request`);
     }
   }
 

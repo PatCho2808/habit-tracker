@@ -17,12 +17,20 @@ export default defineComponent({
   },
   methods: {
     async onSubmitLogin(username: string, password: string): Promise<any> {
-      await authService.authenticate(username, password, 'login');
-      this.$emit('authenticate');
+      try {
+        await authService.authenticate(username, password, 'login');
+        this.$emit('authenticate');
+      } catch (error) {
+        console.error(error.message);
+      }
     },
     async onSubmitSignup(username: string, password: string): Promise<any> {
-      await authService.authenticate(username, password, 'signup');
-      this.$emit('authenticate');
+      try {
+        await authService.authenticate(username, password, 'signup');
+        this.$emit('authenticate');
+      } catch (error) {
+        console.error(error.message);
+      }
     },
   },
 });
