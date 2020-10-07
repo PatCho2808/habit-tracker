@@ -31,6 +31,11 @@ class AuthService {
     }
   }
 
+  logOut() {
+    document.cookie = 'token=';
+    this.authenticated = false;
+  }
+
   getUsername(): string {
     return this.user.username;
   }
@@ -45,7 +50,7 @@ class AuthService {
     const cookies = document.cookie.split(';');
     for (let i = 0; i < cookies.length; i++) {
       const values = cookies[i].split('=');
-      if (values[0].trim() === 'token') return true;
+      if (values[0].trim() === 'token' && values[1]) return true;
     }
     return false;
   }

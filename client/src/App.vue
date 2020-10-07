@@ -31,13 +31,12 @@ export default defineComponent({
     const authenticated = ref(authService.getIsAuthenticated());
 
     const onAuthenticated = () => {
-      console.log('onAuthenticated');
       authenticated.value = true;
     };
 
     const logOut = () => {
-      console.log('logOut');
       authenticated.value = false;
+      authService.logOut();
     };
 
     return {
