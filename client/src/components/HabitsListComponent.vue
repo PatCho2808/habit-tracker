@@ -1,5 +1,5 @@
 <template>
-  <h1>Habits, ah habitswegqwrhqethn</h1>
+  <h1>Habits, ah Patka smierdzi oj oj oj oj</h1>
 </template>
 
 <script lang="ts">

@@ -1,7 +1,7 @@
-FROM node:lts-alpine
+FROM node:14
 
 # make the 'app' folder the current working directory
-WORKDIR /app
+WORKDIR /usr/src/app
 
 # copy both 'package.json' and 'package-lock.json' (if available)
 COPY package*.json ./
@@ -10,7 +10,7 @@ COPY package*.json ./
 RUN npm install
 
 # copy project files and folders to the current working directory (i.e. 'app' folder)
-COPY . .
+# COPY . .
 
 EXPOSE 8080
 CMD [ "npm", "run", "serve"]
