@@ -1,55 +1,28 @@
 <template>
-  <div>
-    <nav>
-      <div class="nav-wrapper purple darken-3">
-        <a id="logo" href="#" class="brand-logo">Habit tracker</a>
-        <ul id="nav-mobile" class="right hide-on-med-and-down">
-          <li v-if="authenticated"><a @click="logOut">Log out</a></li>
-        </ul>
-      </div>
-    </nav>
-    <div id="container">
-      <AuthComponent v-if="!authenticated" @authenticate="onAuthenticated" />
-      <HabitsListComponent v-else />
-    </div>
+  <div id="app">
+    <img alt="Vue logo" src="./assets/logo.png">
+    <HelloWorld msg="Welcome to Your Vue.js App"/>
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent, ref } from 'vue';
-import authService from './services/AuthService';
-import AuthComponent from './components/AuthComponent.vue';
-import HabitsListComponent from './components/HabitsListComponent.vue';
+<script>
+import HelloWorld from './components/HelloWorld.vue'
 
-export default defineComponent({
+export default {
   name: 'App',
   components: {
-    AuthComponent,
-    HabitsListComponent,
-  },
-  setup() {
-    const authenticated = ref(authService.getIsAuthenticated());
-
-    const onAuthenticated = () => {
-      authenticated.value = true;
-    };
-
-    const logOut = () => {
-      authenticated.value = false;
-      authService.logOut();
-    };
-
-    return {
-      authenticated,
-      onAuthenticated,
-      logOut,
-    };
-  },
-});
+    HelloWorld
+  }
+}
 </script>
 
 <style>
-#logo {
-  padding-left: 40px;
+#app {
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+  color: #2c3e50;
+  margin-top: 60px;
 }
 </style>
