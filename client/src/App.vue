@@ -1,28 +1,56 @@
 <template>
-  <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
-  </div>
+	<div id="app">
+		<auth-component msg="Heloł" />
+	</div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import AuthComponent from './components/AuthComponent.vue';
 
 export default {
-  name: 'App',
-  components: {
-    HelloWorld
-  }
-}
+	name: 'App',
+	components: {
+		AuthComponent
+	}
+};
 </script>
 
 <style>
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap');
+
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+	/* https://coolors.co/231942-5e548e-9f86c0-be95c4-e0b1cb */
+	--color-primary: #231942;
+	--color-secondary: #5e548e;
+	--color-tertiary: #9f86c0;
+
+	width: 100vw;
+	height: 100vh;
+
+	background-color: var(--color-primary);
+
+	display: flex;
+	justify-content: center;
+	align-items: center;
+
+	color: var(--color-tertiary);
+}
+
+*,
+*::after,
+*::before {
+	margin: 0;
+	padding: 0;
+	box-sizing: inherit;
+}
+
+html {
+	font-size: 62.5%;
+}
+
+body {
+	box-sizing: border-box;
+	margin: 0;
+	font-family: 'Quicksand', sans-serif;
 }
 </style>
