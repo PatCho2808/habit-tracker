@@ -1,19 +1,21 @@
-version: "3.8"
+version: '3.8'
 services:
   server:
     container_name: habit_tracker_server
     build:
-      context: "../server"
+      context: '../server'
     ports:
-      - "3000:3000"
+      - '3000:3000'
     links:
       - client
+    volumes:
+      - ../server:/usr/src/app
   client:
     container_name: habit_tracker_client
     build:
-      context: "../client"
+      context: '../client'
     ports:
-      - "8080:8080"
+      - '8080:8080'
     volumes:
       - ../client:/usr/src/app
       - /usr/src/app/node_modules

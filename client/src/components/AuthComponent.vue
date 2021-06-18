@@ -4,30 +4,44 @@
 			<h3 class="heading--tertiary">Login:</h3>
 			<form action="#" class="auth__form">
 				<label for="email" class="auth__label">Email:</label>
-				<input type="email" class="auth__input" name="email" id="email" />
+				<input
+					type="email"
+					class="auth__input"
+					name="email"
+					id="email"
+					v-model="username_login"
+				/>
 				<label for="password" class="auth__label">Password:</label>
 				<input
 					type="password"
 					class="auth__input"
 					name="password"
 					id="password"
+					v-model="password_login"
 				/>
-				<button class="btn" type="submit">submit</button>
+				<button class="btn" @click="login">submit</button>
 			</form>
 		</div>
 		<div class="auth__register">
 			<h3 class="heading--tertiary">Or register:</h3>
 			<form action="#" class="auth__form">
 				<label for="email" class="auth__label">Email:</label>
-				<input type="email" class="auth__input" name="email" id="email" />
+				<input
+					type="email"
+					class="auth__input"
+					name="email"
+					id="email"
+					v-model="username_register"
+				/>
 				<label for="password" class="auth__label">Password:</label>
 				<input
 					type="password"
 					class="auth__input"
 					name="password"
 					id="password"
+					v-model="password_register"
 				/>
-				<button class="btn" type="submit">submit</button>
+				<button class="btn" @click="register">submit</button>
 			</form>
 		</div>
 	</div>
@@ -38,6 +52,29 @@ export default {
 	name: 'AuthComponent',
 	props: {
 		msg: String
+	},
+	data() {
+		return {
+			username_login: '',
+			password_login: '',
+			username_register: '',
+			password_register: ''
+		};
+	},
+	methods: {
+		login(event) {
+			event.preventDefault();
+			if (this.username && this.password) {
+				this.$emit('loginIn', this.username_login, this.password_login);
+			}
+		},
+
+		register(event) {
+			event.preventDefault();
+			if (this.username && this.password) {
+				this.$emit('register', this.username_register, this.password_register);
+			}
+		}
 	}
 };
 </script>

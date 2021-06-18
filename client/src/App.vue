@@ -1,16 +1,40 @@
 <template>
 	<div id="app">
-		<auth-component msg="Heloł" />
+		<auth-component
+			v-if="!isLoggedIn"
+			@loginIn="onLoginIn"
+			@register="onRegister"
+			msg="Heloł"
+		/>
 	</div>
 </template>
 
 <script>
 import AuthComponent from './components/AuthComponent.vue';
+import AuthService from './services/AuthService';
+
+const authService = new AuthService();
 
 export default {
 	name: 'App',
 	components: {
 		AuthComponent
+	},
+	data() {
+		return {
+			isLoggedIn: false
+		};
+	},
+	methods: {
+		async onLoginIn(username, password) {
+			this.isLoggedIn = await authService.login(username, password);
+		},
+		async onRegister(username, password) {
+			this.isLoggedIn = await authService.register(username, password);
+		}
+	},
+	created: function() {
+		this.isLoggedIn = authService.getIsLoggedIn();
 	}
 };
 </script>
