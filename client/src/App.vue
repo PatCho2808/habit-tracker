@@ -4,13 +4,16 @@
 			v-if="!isLoggedIn"
 			@loginIn="onLoginIn"
 			@register="onRegister"
-			msg="Heloł"
 		/>
+		<div class="content" v-if="isLoggedIn">
+			<nav-component> </nav-component>
+		</div>
 	</div>
 </template>
 
 <script>
 import AuthComponent from './components/AuthComponent.vue';
+import NavComponent from './components/NavComponent.vue';
 import AuthService from './services/AuthService';
 
 const authService = new AuthService();
@@ -18,11 +21,13 @@ const authService = new AuthService();
 export default {
 	name: 'App',
 	components: {
-		AuthComponent
+		AuthComponent,
+		NavComponent
 	},
 	data() {
 		return {
-			isLoggedIn: false
+			isLoggedIn: false,
+			username: ''
 		};
 	},
 	methods: {
@@ -35,6 +40,9 @@ export default {
 	},
 	created: function() {
 		this.isLoggedIn = authService.getIsLoggedIn();
+		if (this.isLoggedIn) {
+			this.username = authService.getUsername();
+		}
 	}
 };
 </script>
@@ -58,6 +66,13 @@ export default {
 	align-items: center;
 
 	color: var(--color-tertiary);
+}
+
+.content {
+	width: 100%;
+	height: 100%;
+	display: flex;
+
 }
 
 *,

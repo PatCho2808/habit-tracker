@@ -64,14 +64,14 @@ export default {
 	methods: {
 		login(event) {
 			event.preventDefault();
-			if (this.username && this.password) {
+			if (this.username_login && this.password_login) {
 				this.$emit('loginIn', this.username_login, this.password_login);
 			}
 		},
 
 		register(event) {
 			event.preventDefault();
-			if (this.username && this.password) {
+			if (this.username_register && this.password_register) {
 				this.$emit('register', this.username_register, this.password_register);
 			}
 		}
