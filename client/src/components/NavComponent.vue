@@ -30,6 +30,8 @@ export default {
 	flex-direction: column;
 	align-items: center;
 	text-align: center;
+	border-radius: 0.7rem;
+	box-shadow: 1rem 0rem 3rem rgba(black, 0.7);
 
 	&__title {
 		flex: 0 0 40%;

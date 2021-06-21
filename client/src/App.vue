@@ -5,8 +5,11 @@
 			@loginIn="onLoginIn"
 			@register="onRegister"
 		/>
-		<div class="content" v-if="isLoggedIn">
+		<div class="container" v-if="isLoggedIn">
 			<nav-component> </nav-component>
+			<div class="content">
+				<user-component></user-component>
+			</div>
 		</div>
 	</div>
 </template>
@@ -14,6 +17,7 @@
 <script>
 import AuthComponent from './components/AuthComponent.vue';
 import NavComponent from './components/NavComponent.vue';
+import UserComponent from './components/UserComponent.vue';
 import AuthService from './services/AuthService';
 
 const authService = new AuthService();
@@ -22,7 +26,8 @@ export default {
 	name: 'App',
 	components: {
 		AuthComponent,
-		NavComponent
+		NavComponent,
+		UserComponent
 	},
 	data() {
 		return {
@@ -68,11 +73,16 @@ export default {
 	color: var(--color-tertiary);
 }
 
-.content {
+.container {
 	width: 100%;
 	height: 100%;
 	display: flex;
+}
 
+.content {
+	display: flex;
+	flex-direction: column;
+	width: 100%;
 }
 
 *,
